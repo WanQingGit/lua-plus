@@ -4,3 +4,13 @@ This is Lua 5.3.5, released on 26 Jun 2018.
 For installation instructions, license details, and
 further information about Lua, see doc/readme.html.
 
+添加了内存池，解决内存碎片化的问题。
+由于有内存池，将hash表由开放地址法改成链表法，减少占用空间。
+由于lua没有__hash，所以将列表的红黑树移除了。
+垃圾回收由低效的标记清除算法改成引用计数法。
+使用分代回收算法解决循环引用。
+dict，堆栈保存的是指针，顾基本类型不再是值传递，dict和堆栈的占用内存减少一半。
+对部分整数使用了内存池。
+
+
+
