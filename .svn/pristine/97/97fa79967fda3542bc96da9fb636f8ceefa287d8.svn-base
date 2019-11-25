@@ -1,0 +1,1120 @@
+/*
+ ** $Id: ltable.c,v 2.118.1.4 2018/06/08 16:22:51 roberto Exp $
+ ** Lua tables (hash)
+ ** See Copyright Notice in lua.h
+ */
+
+#define ltable_c
+#define LUA_CORE
+
+#include "lprefix.h"
+#include <string.h>
+/*
+ ** Implementation of tables (aka arrays, objects, or hash tables).
+ ** Tables keep its elements in two parts: an array part and a hash part.
+ ** Non-negative integer keys are all candidates to be kept in the array
+ ** part. The actual size of the array is the largest 'n' such that
+ ** more than half the slots between 1 and n are in use.
+ ** Hash uses a mix of chained scatter table with Brent's variation.
+ ** A main invariant of these tables is that, if an element is not
+ ** in its main position (i.e. the 'original' position that its hash gives
+ ** to it), then the colliding element is in its own main position.
+ ** Hence even when the load factor reaches 100%, performance remains good.
+ */
+
+#include <math.h>
+#include <limits.h>
+
+#include "lua.h"
+
+#include "ldebug.h"
+#include "ldo.h"
+#include "lgc.h"
+#include "lmem.h"
+#include "lobject.h"
+#include "lstate.h"
+#include "lstring.h"
+#include "ltable.h"
+#include "lvm.h"
+#include "lapi.h"
+#include "qlist.h"
+#include "rbtree.h"
+/*
+ ** Maximum size of array part (MAXASIZE) is 2^MAXABITS. MAXABITS is
+ ** the largest integer such that MAXASIZE fits in an unsigned int.
+ */
+#define MAXABITS	cast_int(sizeof(int) * CHAR_BIT - 1)
+#define MAXASIZE	(1u << MAXABITS)
+
+/*
+ ** Maximum size of hash part is 2^MAXHBITS. MAXHBITS is the largest
+ ** integer such that 2^MAXHBITS fits in a signed int. (Note that the
+ ** maximum number of elements in a table, 2^MAXABITS + 2^MAXHBITS, still
+ ** fits comfortably in an unsigned int.)
+ */
+#define MAXHBITS	(MAXABITS - 1)
+
+#define hashpow2(t,n)		(gnode(t, t->nodemask&(n)))
+//#define hashpow2(t,n)		(gnode(t, lmod((n), sizenode(t))))
+
+#define hashstr(str)		(str)->hash
+#define hashboolean(t,p)	hashpow2(t, p)
+#define hashint(t,i)		hashpow2(t, i)
+
+/*
+ ** for some types, it is better to avoid modulus by power of 2, as
+ ** they tend to have many 2 factors.
+ */
+#define hashmod(t,n)	(gnode(t, ((n) % ((sizenode(t)-1)|1))))
+
+#define hashpointer(t,p)	hashmod(t, point2uint(p))
+
+#define LINK2RB_SIZE 10
+#define RB2LINK_SIZE 3
+#define MAP_MINSIZE 4
+#define MAP_TABLE 1
+#define MAXFREESET 256
+#define MAXFREEMAP MAXFREESET*2
+#define MAXFREETABLE MAXFREESET
+static GCPrefix *free_table[MAXFREETABLE];
+static int numfreeTable = 0;
+static NodeSet *free_set[MAXFREESET];
+static int numfreeSet = 0;
+static NodeMap *free_map[MAXFREEMAP];
+static int numfreeMap = 0;
+static inline int value_equal(lua_State *L, const TValue *v1, const TValue *v2);
+static lua_Unsigned luaH_countn(Table *t);
+int luaH_get_next(lua_State *L, Table *t, const TValue *key, NodeMap **res);
+/*
+ ** Hash for floating-point numbers.
+ ** The main computation should be just
+ **     n = frexp(n, &i); return (n * INT_MAX) + i
+ ** but there are some numerical subtleties.
+ ** In a two-complement representation, INT_MAX does not has an exact
+ ** representation as a float, but INT_MIN does; because the absolute
+ ** value of 'frexp' is smaller than 1 (unless 'n' is inf/NaN), the
+ ** absolute value of the product 'frexp * -INT_MIN' is smaller or equal
+ ** to INT_MAX. Next, the use of 'unsigned int' avoids overflows when
+ ** adding 'i'; the use of '~u' (instead of '-u') avoids problems with
+ ** INT_MIN.
+ */
+#if !defined(l_hashfloat)
+static int l_hashfloat(lua_Number n) {
+	int i;
+	lua_Integer ni;
+	n = l_mathop(frexp)(n, &i) * -cast_num(INT_MIN);
+	if (!lua_numbertointeger(n, &ni)) { /* is 'n' inf/-inf/NaN? */
+		lua_assert(luai_numisnan(n) || l_mathop(fabs)(n) == cast_num(HUGE_VAL));
+		return 0;
+	} else { /* normal case */
+		unsigned int u = cast(unsigned int, i) + cast(unsigned int, ni);
+		return cast_int(u <= cast(unsigned int, INT_MAX) ? u : ~u);
+	}
+}
+#endif
+
+NodeMap *getNode(lua_State *L, int type) {
+	NodeMap *node;
+	if (type & MAP_TABLE) {
+		if (numfreeMap)
+			node = free_map[--numfreeMap];
+		else
+			node = (NodeMap*) luaM_realloc_(L, NULL, 0, sizeof(NodeMap));
+	} else {
+		if (numfreeSet)
+			node = (NodeMap*) free_set[--numfreeSet];
+		else
+			node = (NodeMap*) luaM_realloc_(L, NULL, 0, sizeof(NodeSet));
+	}
+	return node;
+}
+/*
+ ** returns the 'main' position of an element in a table (that is, the index
+ ** of its hash value)
+ */
+//static lua_Integer mainposition (const Table *t, const TValue *key) {
+lua_Integer gethash(const TValue *key) {
+	switch (ttype(key)) {
+	case LUA_TNUMINT:
+		return key->value_.i;
+	case LUA_TNUMFLT:
+		return l_hashfloat(fltvalue(key)); //GCUnion
+	case LUA_TSHRSTR:
+		return key->value_.s->hash;
+	case LUA_TLNGSTR:
+		return luaS_hashlongstr(tsvalue(key));
+	case LUA_TBOOLEAN:
+		return bvalue(key);
+	case LUA_TLIGHTUSERDATA:
+		return point2uint(pvalue(key));
+	case LUA_TLCF:
+		return point2uint(fvalue(key));
+	default:
+//		lua_assert(!ttisdeadkey(key));
+		return point2uint(gcvalue(key));
+	}
+}
+
+int luaH_next(lua_State *L, Table *t, StkId key) {
+	TValue *k = *key;
+	NodeMap *res;
+	if (luaH_get_next(L, t, k, &res)) {
+		setobj2s(L, key, res->i_key);
+		setobj2s(L, key + 1, res->i_val);
+		return 1;
+	}
+	return 0; /* no more elements */
+}
+
+static void setarrayvector(lua_State *L, Table *t, int nasize) {
+	unsigned int i;
+	Node res;
+	NodeMap map;
+	unsigned int oldasize = t->sizearray;
+	TValue ikey = { { (void*) 0 }, LUA_TNUMINT };
+	if (nasize > oldasize) { /* array part must grow? */
+		luaM_reallocvector(L, t->array, oldasize, nasize, TValue*);
+		unsigned int len_array = t->len_array;
+		for (i = oldasize + 1; i <= nasize; i++) {
+			if (t->length && (ikey.value_.i = i, luaH_del(L, t, &ikey, &map))) {
+				refDec(L, map.i_key);
+				t->array[i - 1] = map.i_val;
+				t->array_used++;
+			} else {
+				t->array[i - 1] = luaO_nilobject;
+			}
+		}
+		t->len_array = len_array;
+		t->sizearray = nasize;
+	}
+	/* create new hash part with appropriate size */
+	else if (nasize < oldasize) { /* array part must shrink? */
+		assert(nasize > 0);
+		t->sizearray = nasize;
+		/* re-insert elements from vanishing slice */
+		for (i = nasize + 1; i <= oldasize; i++) {
+			TValue *v = t->array[i - 1];
+			if (v->tt) {
+				t->array_used--;
+				TValue *key = int_get(L, i);
+				lua_assert(luaH_gset(L, t, key, i, 1, &res) == 0);
+				res.map->i_val = v;
+			}
+			/* shrink array */
+			luaM_reallocvector(L, t->array, oldasize, nasize, TValue*);
+		}
+	}
+}
+int luaH_del(lua_State *L, Table *t, const TValue *key, NodeMap *res) {
+	lua_Integer hash;
+	size_t pos;
+	NodeMap *node, *prev;
+	lua_assert(t->type);
+	if (key->tt == LUA_TNUMINT && (hash = key->value_.i) > 0) {
+		if (hash <= t->len_array) {
+			t->len_array = hash - 1;
+		}
+		pos = hash - 1;
+		unsigned int sizearray = t->sizearray;
+		if (pos < sizearray) {
+			TValue *v = t->array[pos];
+			if (v->tt) {
+				if (res) {
+					res->i_key = NULL;
+					res->i_val = t->array[pos];
+				} else
+					refDec(L, v);
+				t->array[pos] = luaO_nilobject;
+				t->array_used--;
+				if (t->array_used < sizearray >> 2) {
+					setarrayvector(L, t, sizearray >> 1);
+				}
+				return 1;
+			} else
+				return 0;
+		}
+	}
+	if (t->length == 0 || key->tt == LUA_TNIL)
+		return 0;
+	pos = hash & t->nodemask;
+	Entry *entry = t->entry + pos;
+	RBTree* tree = entry->tree;
+	if (entry->len > LINK2RB_SIZE) {
+		RBNode *rnode;
+		lua_assert(tree);
+		if ((rnode = RB.search(tree, (rbtype) &key)) != NULL) {
+			node = (NodeMap*) rnode->key;
+			if (rnode->val) {
+				prev = (NodeMap*) rnode->val;
+				NodeMap* next = node->next;
+				if (prev)
+					prev->next = next;
+				else
+					entry->node.map = next;
+				if (next) {
+					RBNode *rnode2 = RB.search(tree, (rbtype) next);
+					lua_assert(rnode2);
+					rnode2->val = (rbtype) prev;
+				}
+			}
+			if (res) {
+				res->i_key = node->i_key;
+				res->i_val = node->i_val;
+			} else {
+				refDec(L, node->i_key);
+				refDec(L, node->i_val);
+			}
+			RB.delNode(tree, rnode);
+			entry->len--;
+			t->length--;
+			if (numfreeMap < MAXFREEMAP)
+				free_map[numfreeMap++] = node;
+			else
+				luaM_realloc_(L, node, sizeof(NodeMap), 0);
+			if (t->length <= t->lsizenode >> 3) {
+				luaH_resize_(L, t, t->length);
+			}
+			return 1;
+		} else
+			return 0;
+	}
+	node = entry->node.map, prev = NULL;
+	while (node) {
+		if (node->i_key->tt == key->tt) {
+			if (node->i_key->value_.p == key->value_.p
+					|| value_equal(L, node->i_key, key)) {
+				if (prev)
+					prev->next = node->next;
+				else
+					entry->node.map = node->next;
+				entry->len--;
+				t->length--;
+				if (tree) {
+					if (entry->len < RB2LINK_SIZE) {
+						RB.destroy(L, &entry->tree, NULL);
+					} else {
+						RBNode *rnode = RB.search(tree, (rbtype) node);
+						lua_assert(rnode);
+						RB.delNode(entry->tree, rnode);
+						NodeMap *next = node->next;
+						if (next) {
+							rnode = RB.search(tree, (rbtype) node);
+							lua_assert(rnode);
+							rnode->val = (rbtype) prev;
+						}
+					}
+				}
+				if (res) {
+					res->i_key = node->i_key;
+					res->i_val = node->i_val;
+				} else {
+					refDec(L, node->i_key);
+					refDec(L, node->i_val);
+				}
+				if (numfreeMap < MAXFREEMAP)
+					free_map[numfreeMap++] = node;
+				else
+					luaM_realloc_(L, node, sizeof(NodeMap), 0);
+				if (t->length <= t->lsizenode >> 3) {
+					luaH_resize_(L, t, t->length);
+				}
+				return 1;
+			}
+		}
+		prev = node;
+		node = node->next;
+	}
+	return 0;
+}
+int luaH_del_set(lua_State *L, Table *t, const TValue *key, lua_Integer hash) {
+	NodeMap *node, *prev;
+	if (t->length == 0)
+		return 0;
+	size_t pos = hash & t->nodemask;
+	Entry *entry = t->entry + pos;
+	RBTree* tree = entry->tree;
+	if (tree && entry->len > LINK2RB_SIZE) {
+		RBNode *rnode;
+		if ((rnode = RB.search(tree, (rbtype) &key)) != NULL) {
+			node = (NodeMap*) rnode->key;
+			if (rnode->val) {
+				prev = (NodeMap*) rnode->val;
+				NodeMap* next = node->next;
+				if (prev)
+					prev->next = next;
+				else
+					entry->node.map = next;
+				if (next) {
+					RBNode *rnode2 = RB.search(tree, (rbtype) next);
+					lua_assert(rnode2);
+					rnode2->val = (rbtype) prev;
+				}
+			}
+			entry->len--;
+			t->length--;
+			RB.delNode(tree, rnode);
+			if (t->length < t->lsizenode >> 3) {
+				luaH_resize_(L, t, t->lsizenode >> 1);
+			}
+			return 1;
+		} else
+			return 0;
+	}
+	node = entry->node.map, prev = NULL;
+	while (node) {
+		if (node->i_key->value_.p == key->value_.p) {
+			if (prev)
+				prev->next = node->next;
+			else
+				entry->node.map = node->next;
+			entry->len--;
+			t->length--;
+			if (tree) {
+				if (entry->len < RB2LINK_SIZE) {
+					RB.destroy(L, &entry->tree, NULL);
+				} else {
+					RBNode *rnode = RB.search(entry->tree, (rbtype) node);
+					lua_assert(rnode);
+					RB.delNode(entry->tree, rnode);
+					NodeMap *next = node->next;
+					if (next) {
+						rnode = RB.search(entry->tree, (rbtype) node);
+						lua_assert(rnode);
+						rnode->val = (rbtype) prev;
+					}
+					RB.delete(entry->tree, (rbtype) node);
+				}
+			}
+			refDec(L, node->i_key);
+			if (numfreeSet < MAXFREESET)
+				free_set[numfreeSet++] = (NodeSet*) node;
+			else
+				luaM_realloc_(L, node, sizeof(NodeSet), 0);
+			if (t->length < t->lsizenode >> 3) {
+				luaH_resize_(L, t, t->lsizenode >> 1);
+			}
+			return 1;
+		}
+		prev = node;
+		node = node->next;
+	}
+	return 0;
+}
+int luaH_array_used(lua_State *L, Table *t) {
+	register int i = t->len_array + 1, size = t->sizearray, sum = t->len_array;
+	TValue **array = t->array;
+	for (; i < size; i++) {
+		if (array[i]->tt)
+			sum++;
+	}
+	return sum;
+}
+void luaH_resize_(lua_State *L, Table *t, lua_Integer size) {
+	lua_Integer oldsize = t->lsizenode, pos;
+	lua_Integer newsize = MAP_MINSIZE;
+	for (; newsize < size && newsize > 0; newsize <<= 1)
+		;
+	if (newsize < 0)
+		luaD_throw(L, LUA_ERRMEM);
+	if (newsize != oldsize) {
+		register Entry *oldt = t->entry, *newt, *entry;
+		newt = luaM_newvector(L, newsize, Entry);
+		t->entry = newt;
+		memset(newt, 0, newsize * sizeof(Entry));
+		t->lsizenode = newsize;
+		lua_Integer mod = newsize - 1;
+		t->nodemask = mod;
+		if (t->length) {
+			NodeSet *node, *next;
+			for (register ssize_t i = 0; i < oldsize; i++) {
+				node = oldt[i].node.set;
+				if (oldt[i].tree != NULL) {
+					RB.destroy(L, &oldt[i].tree, NULL);
+				}
+				while (node) {
+					pos = node->hash & mod;
+					next = node->next;
+					entry = &newt[pos];
+					node->next = entry->node.set;
+					entry->node.set = node;
+					entry->len++;
+					node = next;
+				}
+			}
+		}
+		if (oldsize)
+			luaM_freearray(L, oldt, oldsize);
+	}
+}
+void luaH_resize(lua_State *L, Table *t, unsigned int nasize,
+		unsigned int nhsize) {
+	if (nasize != t->sizearray)
+		setarrayvector(L, t, nasize);
+	if (nhsize != t->lsizenode)
+		luaH_resize_(L, t, nhsize);
+}
+
+void luaH_resizearray(lua_State *L, Table *t, unsigned int nasize) {
+	setarrayvector(L, t, nasize);
+}
+
+/*
+ ** }=============================================================
+ */
+
+Table *luaH_new(lua_State *L) {
+	Table *t;
+	if (numfreeTable) {
+		GCPrefix *bp = free_table[--numfreeTable];
+		t = cast(Table*, bp + 1);
+		box_append(L, bp);
+		t->collectable = 1;
+	} else {
+		t = (Table*) luaC_newobj(L, LUA_TTABLE, sizeof(Table));
+	}
+	t->gclist = NULL;
+	t->length = 0;
+	t->metatable = NULL;
+	t->type = MAP_TABLE;
+	t->lsizenode = 0;
+	t->sizearray = 0;
+	t->len_array = 0;
+	t->array = NULL;
+	t->array_used = 0;
+	return t;
+}
+Table *luaH_create(lua_State *L, int isTable, int defsize) {
+	Table *t;
+	if (numfreeTable) {
+		GCPrefix *bp = free_table[--numfreeTable];
+		t = cast(Table*, bp + 1);
+		box_append(L, bp);
+	} else {
+		GCObj *o = luaC_newobj(L, LUA_TTABLE, sizeof(Table));
+		t = gco2t(o);
+	}
+	t->metatable = NULL;
+	t->type = isTable;
+	t->sizearray = 0;
+	t->length = 0;
+	t->lsizenode = 0;
+	t->len_array = 0;
+	t->array_used = 0;
+	if (defsize)
+		luaH_resize_(L, t, defsize);
+	return t;
+}
+/*
+ ** inserts a new key into a hash table; first, check whether key's main
+ ** position is free. If not, check whether colliding node is in its main
+ ** position or not: if it is not, move colliding node to an empty place and
+ ** put new key in its main position; otherwise (colliding node is in its main
+ ** position), new key goes to an empty position.
+ */
+TValue *luaH_newkey(lua_State *L, Table *t, const TValue *key) {
+	return NULL;
+}
+/*
+ ** search function for integers
+ */
+const TValue *luaH_getint(Table *t, lua_Integer key) {
+	static TValue v = { { NULL }, LUA_TNUMINT };
+	v.value_.i = key;
+	Node res;
+	if (luaH_gset(NULL, t, &v, key, 0, &res)) {
+		return res.map->i_val;
+	}
+	return luaO_nilobject;
+}
+
+/*
+ ** search function for short strings
+ */
+const TValue *luaH_getshortstr(Table *t, TString *key) {
+	return luaH_getstr(t, key);
+}
+
+const TValue *luaH_getstr(Table *t, TString *key) {
+	Node res;
+	if (luaH_gset(NULL, t, (TValue*) key, key->hash, 0, &res)) {
+		return res.map->i_val;
+	}
+	return luaO_nilobject;
+}
+int luaH_setifexist(lua_State *L, Table *t, TValue *key, TValue *val) {
+	Node res;
+	if (val->tt) {
+		if (luaH_gset(L, t, key, gethash(key), 0, &res)) {
+			refDec(L, res.map->i_val);
+			refInc(val);
+			res.map->i_val = val;
+			return 1;
+		}
+		return 0;
+	} else {
+		luaH_del(L, t, key, NULL);
+		return 1;
+	}
+}
+int str_compare(const TString *v1, const TString *v2) {
+	int res = v1->length - v2->length;
+	if (res)
+		return res;
+	res = v1->hash - v2->hash;
+	return res ? res : memcmp(v1->val, v2->val, v1->length);
+}
+lua_Integer int_compare(const lua_Integer **v1, const lua_Integer **v2) {
+//	lua_Integer res = **v1 - **v2;
+//	if (res == 0)
+//		printf("%ld\n", res);
+	return **v1 - **v2;
+}
+lua_Integer value_compare(TValue **n1, TValue **n2) {
+	TValue * v1 = *n1, *v2 = *n2;
+	lua_State *L = _S;
+	if (v1->tt == v2->tt) {
+		if (v1->value_.gc == v2->value_.gc) {
+			return 0;
+		} else {
+			const TValue *tm = NULL;
+			switch (ttype(v1)) {
+			case LUA_TLNGSTR: {
+				TString *s1 = v1->value_.s, *s2 = v2->value_.s;
+				if (s1->length != s2->length)
+					return s1->length - s2->length;
+				return memcmp(s1->val, s2->val, s1->length);
+			}
+			case LUA_TUSERDATA: {
+				tm = fasttm(L, uvalue(v1)->metatable, TM_SUB);
+				if (tm == NULL)
+					tm = fasttm(L, uvalue(v2)->metatable, TM_SUB);
+				break; /* will try TM */
+			}
+			case LUA_TTABLE: {
+				tm = fasttm(L, hvalue(v1)->metatable, TM_SUB);
+				if (tm == NULL)
+					tm = fasttm(L, hvalue(v2)->metatable, TM_SUB);
+				break; /* will try TM */
+			}
+			default:
+				return v1->value_.i - v2->value_.i;
+			}
+			if (tm) {
+				luaT_callTM(L, tm, v1, v2, L->top, 1);
+				int res = (*L->top)->value_.i;
+				refDec(L, *L->top);
+				*L->top = NULL;
+				return res;
+			}
+		}
+	}
+	return v1->tt - v2->tt;
+}
+static inline int value_equal(lua_State *L, const TValue *v1, const TValue *v2) {
+	const TValue *tm = NULL;
+	switch (ttype(v1)) {
+	case LUA_TLNGSTR: {
+		TString *s1 = v1->value_.s, *s2 = v2->value_.s;
+		if (s1->length == s2->length) {
+			return memcmp(s1->val, s2->val, s1->length) == 0;
+		}
+		return 0;
+	}
+	case LUA_TUSERDATA: {
+		tm = fasttm(L, uvalue(v1)->metatable, TM_EQ);
+		if (tm == NULL)
+			tm = fasttm(L, uvalue(v2)->metatable, TM_EQ);
+		break; /* will try TM */
+	}
+	case LUA_TTABLE: {
+		tm = fasttm(L, hvalue(v1)->metatable, TM_EQ);
+		if (tm == NULL)
+			tm = fasttm(L, hvalue(v2)->metatable, TM_EQ);
+		break; /* will try TM */
+	}
+	default:
+		return v1->value_.i == v2->value_.i;
+	}
+	if (tm) {
+		luaT_callTM(L, tm, v1, v2, L->top, 1);
+		if (!l_isfalse(*L->top)) {
+			return 1;
+		}
+	}
+	return 0;
+}
+int luaH_gset(lua_State *L, Table *t, const TValue *key, lua_Integer hash,
+		int insert, Node *res) {
+	lua_assert(t->type);
+	if (key->tt == LUA_TNIL) {
+		res->map = cast(NodeMap*, (char*)luaO_nilobject-offsetof(NodeMap,i_val));
+		return 0;
+	}
+	if (key->tt == LUA_TNUMINT && hash > 0) {
+		size_t pos = hash - 1;
+		if (insert) {
+//			unsigned int len_array ;
+			if (pos == t->len_array) {
+				t->len_array++;
+				luaH_countn(t);
+			}
+			if (t->len_array > t->sizearray) {
+				setarrayvector(L, t, t->len_array * 1.6 + 4);
+			} else if (t->array_used > t->sizearray * 0.8) {
+				setarrayvector(L, t, t->array_used << 1);
+			}
+		}
+		if (pos < t->sizearray) {
+			res->map = cast(NodeMap*,
+					cast(char*,&t->array[pos])-offsetof(NodeMap,i_val));
+			if (t->array[pos]->tt == LUA_TNIL && insert) {
+				t->array_used++;
+				return 0;
+			}
+			return t->array[pos]->tt;
+		}
+	}
+	if (insert) {
+		if (t->lsizenode == 0)
+			luaH_resize_(L, t, MAP_MINSIZE);
+		else {
+			lua_Integer i = t->lsizenode << 1;
+			if (t->length > i) {
+				assert(i > 0);
+				i <<= 1;
+				assert(i > 0);
+				luaH_resize_(L, t, i);
+			}
+		}
+	} else if (t->length == 0)
+		return 0;
+	NodeMap *node, *prev;
+	RBNode *rnode = NULL;
+	size_t pos = t->nodemask & hash;
+	Entry *entry = t->entry + pos;
+	RBTree *tree = entry->tree;
+	if (entry->len > LINK2RB_SIZE) {
+		if (tree == NULL) {
+			tree = RB.create((comparef) value_compare);
+			node = entry->node.map;
+			prev = NULL;
+			while (node) {
+				lua_assert(RB.insert(tree,(rbtype)node,(rbtype)prev,NULL));
+				prev = node;
+				node = node->next;
+			}
+		}
+		if (insert) {
+			if (RB.insert(tree, (rbtype) &key, (rbtype) NULL, &rnode) == 0) {
+				res->map = (NodeMap*) rnode->key;
+				return 1;
+			}
+		} else {
+			if ((rnode = RB.search(tree, (rbtype) &key)) != NULL) {
+				res->map = (NodeMap*) rnode->key;
+				return 1;
+			} else
+				return 0;
+		}
+	} else {
+		node = entry->node.map;
+		while (node) {
+			if (key->tt == node->i_key->tt) {
+				if (node->i_key->value_.gc == key->value_.gc) {
+					res->map = node;
+					return 1;
+				} else {
+					const TValue *tm = NULL;
+					switch (ttype(key)) {
+					case LUA_TLNGSTR:
+						if (luaS_eqlngstr(tsvalue(key), tsvalue(node->i_key))) {
+							res->map = node;
+							return 1;
+						}
+						break;
+					case LUA_TUSERDATA: {
+						tm = fasttm(L, uvalue(node->i_key)->metatable, TM_EQ);
+						if (tm == NULL)
+							tm = fasttm(L, uvalue(key)->metatable, TM_EQ);
+						break; /* will try TM */
+					}
+					case LUA_TTABLE: {
+						tm = fasttm(L, hvalue(node->i_key)->metatable, TM_EQ);
+						if (tm == NULL)
+							tm = fasttm(L, hvalue(key)->metatable, TM_EQ);
+						break; /* will try TM */
+					}
+					default:
+						break;
+					}
+					if (tm) {
+						luaT_callTM(L, tm, key, node->i_key, L->top, 1);
+						if (!l_isfalse(*L->top)) {
+							res->map = node;
+							return 1;
+						}
+					}
+				}
+			}
+			node = node->next;
+		}
+	}
+	if (insert) {
+		++t->length;
+		if (numfreeMap)
+			node = free_map[--numfreeMap];
+		else
+			node = (NodeMap*) luaM_realloc_(L, NULL, 0, sizeof(NodeMap));
+		node->hash = hash;
+		node->next = entry->node.map;
+		entry->node.map = node;
+		entry->len++;
+		res->map = node;
+		node->i_key = (TValue*) key;
+		if (tree) {
+			if (rnode) {
+				rnode->key = (rbtype) node;
+				rnode->val = (rbtype) NULL;
+			} else
+				lua_assert(RB.insert(tree, (rbtype)node, (rbtype)NULL, NULL));
+			NodeMap *next = node->next;
+			if (next) {
+				rnode = RB.search(tree, (rbtype) next);
+				lua_assert(rnode);
+				rnode->val = (rbtype) node;
+			}
+		}
+		refInc(key);
+	}
+	return 0;
+}
+int luaH_get_next(lua_State *L, Table *t, const TValue *key, NodeMap **res) {
+	static NodeMap map[1];
+	size_t hash = gethash(key);
+	int isfind = 0;
+	size_t pos;
+	if ((key->tt == LUA_TNUMINT || key->tt == LUA_TNIL) && t->array_used) {
+		if (key->tt) {
+			pos = hash - 1;
+		} else
+			pos = -1;
+		while (++pos < t->sizearray) {
+			if (t->array[pos]->tt) {
+				map->i_key = int_get(L, pos + 1);
+				map->i_val = t->array[pos];
+				*res = map;
+				return 2;
+			}
+		}
+		isfind = 1;
+		hash = 0;
+	}
+	if (t->length == 0)
+		return 0;
+	NodeMap *node;
+	RBNode *rnode;
+	pos = t->nodemask & hash;
+	for (int i = pos; i < t->lsizenode; i++) {
+		Entry *entry = t->entry + i;
+		if (entry->len == 0)
+			continue;
+		if (!isfind && entry->len > LINK2RB_SIZE) {
+			RBTree *tree = entry->tree;
+			if ((rnode = RB.search(tree, (rbtype) &key)) != NULL) {
+				node = (NodeMap*) rnode->key;
+				if (isfind) {
+					*res = node;
+					return 1;
+				} else if (node->next) {
+					*res = node->next;
+					return 1;
+				}
+				isfind = 1;
+			}
+		} else {
+			node = entry->node.map;
+			while (node) {
+				if (isfind) {
+					*res = node;
+					return 1;
+				}
+				if (key->tt == node->i_key->tt) {
+					if (node->i_key->value_.gc == key->value_.gc
+							|| value_equal(L, key, node->i_key)) {
+						isfind = 1;
+					}
+				}
+				node = node->next;
+			}
+		}
+	}
+	return 0;
+}
+TValue *luaH_gset_int(lua_State *L, Table *t, lua_Integer key) {
+#ifdef USE_INT_POOL
+	if (t->length > t->lsizenode) {
+		luaH_resize_(L, t, t->lsizenode * 2);
+	}
+	lua_Integer hash = key;
+	size_t pos = t->nodemask & hash;
+	Entry *entry = t->entry + pos;
+	NodeSet *node = entry->node.set;
+	RBNode *rnode = NULL;
+	RBTree *tree = entry->tree;
+	if (entry->len > LINK2RB_SIZE) {
+		if (tree == NULL) {
+			NodeSet *prev = NULL;
+			tree = RB.create((comparef) int_compare);
+			while (node) {
+				lua_assert(RB.insert(tree,(rbtype)node,(rbtype)prev,NULL));
+				prev = node;
+				node = node->next;
+			}
+		}
+		lua_Integer *k = &key;
+		if (RB.insert(tree, (rbtype) (&k), (rbtype) NULL, &rnode) == 0) {
+			return cast(NodeSet*, rnode->key)->i_key;
+		}
+	} else {
+		while (node) {
+			if (node->hash == hash) {
+				return node->i_key;
+			}
+			node = node->next;
+		}
+	}
+	++t->length;
+	if (numfreeSet)
+		node = free_set[--numfreeSet];
+	else
+		node = luaM_realloc_(L, NULL, 0, sizeof(NodeSet));
+	node->hash = hash;
+	node->next = entry->node.set;
+	entry->node.set = node;
+	entry->len++;
+	TValue *io = luaC_newobjNotGC(L, LUA_TNUMINT, sizeof(TValue));
+	io->value_.i = key;
+	node->i_key = io;
+	if (tree) {
+		if (rnode) {
+			rnode->key = (rbtype) node;
+			rnode->val = (rbtype) NULL;
+		} else
+			lua_assert(RB.insert(tree, (rbtype)node,(rbtype) NULL, NULL));
+		NodeSet *next = node->next;
+		if (next) {
+			rnode = RB.search(tree, (rbtype) next);
+			lua_assert(rnode);
+			rnode->val = (rbtype) node;
+		}
+	}
+	return io;
+#else
+	if (key <= 256 && key >= -32)
+		return G(L)->intt[key + 32];
+	else {
+		TValue *io = luaC_newobjNotGC(L, LUA_TNUMINT, sizeof(TValue));
+		io->value_.i = key;
+		return io;
+	}
+#endif
+}
+int luaH_gset_str(lua_State *L, Table *t, const char *key, int len,
+		NodeSet **res) {
+	if (t->length > t->lsizenode) {
+		luaH_resize_(L, t, t->lsizenode * 2);
+	}
+	lua_Integer hash = luaS_hash(key, len, G(L)->seed);
+	size_t pos = t->nodemask & hash;
+	Entry *entry = t->entry + pos;
+	NodeSet *node = entry->node.set;
+	while (node) {
+		if (node->hash == hash && node->i_key->value_.s->length == len
+				&& memcmp(key, node->i_key->value_.s->val, len) == 0) {
+			*res = node;
+			return 1;
+		}
+		node = node->next;
+	}
+	if (numfreeSet)
+		node = free_set[--numfreeSet];
+	else
+		node = luaM_realloc_(L, NULL, 0, sizeof(NodeSet));
+	++t->length;
+	node->hash = hash;
+	node->next = entry->node.set;
+	entry->node.set = node;
+	entry->len++;
+	*res = node;
+	return 0;
+}
+
+void luaH_free(lua_State *L, Table *t) {
+	register lua_Integer i, size = t->sizearray;
+	lua_assert(t->type);
+	GCPrefix *gp = O2B(t);
+	if (size) {
+		TValue **array = t->array;
+		for (i = 0; i < size; i++) {
+			TValue *v = array[i];
+			refDec(L, v);
+		}
+		luaM_realloc_(L, array, sizeof(TValue*) * size, 0);
+	}
+	size = t->lsizenode;
+	if (t->length) {
+		NodeMap *node, *next;
+		Entry *entry;
+		for (i = 0; i < size; i++) {
+			entry = &t->entry[i];
+			if (entry->tree)
+				RB.destroy(L, &entry->tree, NULL);
+			node = entry->node.map;
+			while (node) {
+				next = node->next;
+				refDec(L, node->i_key);
+				refDec(L, node->i_val);
+				if (numfreeMap < MAXFREEMAP) {
+					free_map[numfreeMap++] = node;
+				} else
+					luaM_realloc_(L, node, sizeof(NodeMap), 0);
+				node = next;
+			}
+		}
+	}
+	if (size)
+		luaM_realloc_(L, t->entry, t->lsizenode * sizeof(Entry), 0);
+	gp->nref--;
+	if (gp->nref > 0) {
+		t->lsizenode = 0;
+		t->sizearray = 0;
+		t->metatable = 0;
+		t->length = 0;
+	} else {
+		box_remove(L, gp);
+		if (numfreeTable < MAXFREETABLE) {
+			free_table[numfreeTable++] = gp;
+		} else {
+			luaM_realloc_(L, gp, sizeof(Table), 0);
+		}
+	}
+}
+void luaH_free_set(lua_State *L, Table *t) {
+	register lua_Integer size = t->lsizenode, i;
+	if (t->length) {
+		NodeMap *node, *next;
+		Entry *entry;
+		for (i = 0; i < size; i++) {
+			entry = &t->entry[i];
+			if (entry->tree)
+				RB.destroy(L, &entry->tree, NULL);
+			node = entry->node.map;
+			while (node) {
+				next = node->next;
+				refDec(L, node->i_key);
+				luaM_realloc_(L, node, sizeof(NodeSet), 0);
+				node = next;
+			}
+		}
+	}
+	if (size)
+		luaM_realloc_(L, t->entry, t->lsizenode * sizeof(Entry), 0);
+	luaM_realloc_(L, O2B(t), sizeof(Table), 0);
+}
+
+/*
+ ** main search function
+ */
+TValue *luaH_get(Table *t, const TValue *key) {
+	Node res;
+	if (luaH_gset(NULL, t, (TValue*) key, gethash(key), 0, &res)) {
+		return res.map->i_val;
+	} else
+		return luaO_nilobject;
+}
+
+/*
+ ** beware: when using this function you probably need to check a GC
+ ** barrier and invalidate the TM cache.
+ */
+TValue *luaH_set(lua_State *L, Table *t, const TValue *key) {
+//	Node res;
+//	if (luaH_gset(L, t, key, gethash(key), 1, &res)) {
+//		return res.map->i_val;
+//	}
+//	TValue *v = (TValue*) luaC_newobj(L, LUA_TNONE, sizeof(TValue));
+//	v->pad = 1;
+//	return res.map->i_val = v;
+	return NULL;
+}
+
+void luaH_setint(lua_State *L, Table *t, lua_Integer key, TValue *value) {
+	if (value->tt) {
+		refInc(value);
+		size_t pos = l_castS2U(key) - 1;
+		if (pos < t->sizearray) {
+			if (t->array[pos]->tt) {
+				refDec(L, t->array[pos]);
+			} else {
+				t->array_used++;
+			}
+			t->array[pos] = value;
+			if (pos == t->len_array)
+				t->len_array++;
+			return;
+		}
+		Node res;
+		TValue *k = (TValue*) int_get(L, key);
+		if (luaH_gset(L, t, k, key, 1, &res)) {
+			refDec(L, res.map->i_val);
+		}
+		res.map->i_val = value;
+	} else {
+		TValue *k = (TValue*) int_get(L, key);
+		luaH_del(L, t, k, NULL);
+	}
+}
+void luaH_setdel(lua_State *L, Table *t, TValue *key, TValue *value) {
+	if (value->tt) {
+		Node res;
+		if (luaH_gset(L, t, key, gethash(key), 1, &res)) {
+			refDec(L, res.map->i_val);
+		}
+		res.map->i_val = value;
+		refInc(value);
+	} else {
+		luaH_del(L, t, key, NULL);
+	}
+}
+void table_clear_cache() {
+	register int i;
+	for (i = 0; i < numfreeMap; i++) {
+		luaM_realloc_(_S, free_map[i], sizeof(NodeMap), 0);
+	}
+	numfreeMap = 0;
+	for (i = 0; i < numfreeSet; i++) {
+		luaM_realloc_(_S, free_set[i], sizeof(NodeMap), 0);
+	}
+	numfreeSet = 0;
+	for (i = 0; i < numfreeTable; i++) {
+		luaM_realloc_(_S, free_table[i], sizeof(Table) + sizeof(GCPrefix), 0);
+	}
+	numfreeTable = 0;
+}
+
+/*
+ ** Try to find a boundary in table 't'. A 'boundary' is an integer index
+ ** such that t[i] is non-nil and t[i+1] is nil (and 0 if t[1] is nil).
+ */
+lua_Unsigned luaH_getn(Table *t) {
+	return t->len_array;
+}
+static lua_Unsigned luaH_countn(Table *t) {
+	register lua_Integer i = t->len_array + 1;
+	while (luaH_getint(t, i)->tt) {
+		i++;
+	}
+	t->len_array = i - 1;
+	return t->len_array;
+}
+

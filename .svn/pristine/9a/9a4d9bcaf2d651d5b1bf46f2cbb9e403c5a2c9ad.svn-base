@@ -1,0 +1,3274 @@
+
+root@qing-vm-ubuntu:~/data/lib/lua-plus# valgrind --leak-check=full --show-leak-kinds=all --show-reachable=yes  bin/lua res/time.lua
+==114904== Memcheck, a memory error detector
+==114904== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==114904== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==114904== Command: bin/lua res/time.lua
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x12C9BF: luaS_init (lstring.c:82)
+==114904==    by 0x11F83F: f_luaopen (lstate.c:204)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x1201AF: lua_newstate (lstate.c:336)
+==114904==    by 0x1158E0: luaL_newstate (lauxlib.c:990)
+==114904==    by 0x130289: main (lua.c:598)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x1479C2: luaC_checkfinalizer (lgc.c:1407)
+==114904==    by 0x1418D2: lua_setmetatable (lapi.c:884)
+==114904==    by 0x11D455: createclibstable (loadlib.c:764)
+==114904==    by 0x11D488: luaopen_package (loadlib.c:770)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141ED9: lua_callk (lapi.c:944)
+==114904==    by 0x11565D: luaL_requiref (lauxlib.c:946)
+==114904==    by 0x11D6A1: luaL_openlibs (linit.c:64)
+==114904==    by 0x13017A: pmain (lua.c:571)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x1479C2: luaC_checkfinalizer (lgc.c:1407)
+==114904==    by 0x1419BD: lua_setmetatable (lapi.c:893)
+==114904==    by 0x113838: luaL_setmetatable (lauxlib.c:297)
+==114904==    by 0x111169: newprefile (liolib.c:191)
+==114904==    by 0x112961: createstdfile (liolib.c:756)
+==114904==    by 0x112A4F: luaopen_io (liolib.c:771)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141ED9: lua_callk (lapi.c:944)
+==114904==    by 0x11565D: luaL_requiref (lauxlib.c:946)
+==114904==    by 0x11D6A1: luaL_openlibs (linit.c:64)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x110058: luaH_gset_int (ltable.c:913)
+==114904==    by 0x1491C6: addk (lcode.c:422)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x1259CE: singlevar (lparser.c:269)
+==114904==    by 0x1275BE: primaryexp (lparser.c:827)
+==114904==    by 0x12761D: suffixedexp (lparser.c:848)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x11005F: luaH_gset_int (ltable.c:913)
+==114904==    by 0x1491C6: addk (lcode.c:422)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x1259CE: singlevar (lparser.c:269)
+==114904==    by 0x1275BE: primaryexp (lparser.c:827)
+==114904==    by 0x12761D: suffixedexp (lparser.c:848)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x110081: luaH_gset_int (ltable.c:914)
+==114904==    by 0x1491C6: addk (lcode.c:422)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x1259CE: singlevar (lparser.c:269)
+==114904==    by 0x1275BE: primaryexp (lparser.c:827)
+==114904==    by 0x12761D: suffixedexp (lparser.c:848)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x1491E6: addk (lcode.c:424)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x1259CE: singlevar (lparser.c:269)
+==114904==    by 0x1275BE: primaryexp (lparser.c:827)
+==114904==    by 0x12761D: suffixedexp (lparser.c:848)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x12ED14: luaM_realloc_ (lmem.c:75)
+==114904==    by 0x12ECA2: luaM_growaux_ (lmem.c:59)
+==114904==    by 0x149215: addk (lcode.c:424)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x1259CE: singlevar (lparser.c:269)
+==114904==    by 0x1275BE: primaryexp (lparser.c:827)
+==114904==    by 0x12761D: suffixedexp (lparser.c:848)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x4C321EB: realloc (vg_replace_malloc.c:836)
+==114904==    by 0x12ED8C: luaM_realloc_ (lmem.c:86)
+==114904==    by 0x12ECA2: luaM_growaux_ (lmem.c:59)
+==114904==    by 0x149215: addk (lcode.c:424)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x1259CE: singlevar (lparser.c:269)
+==114904==    by 0x1275BE: primaryexp (lparser.c:827)
+==114904==    by 0x12761D: suffixedexp (lparser.c:848)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x14923A: addk (lcode.c:427)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x1259CE: singlevar (lparser.c:269)
+==114904==    by 0x1275BE: primaryexp (lparser.c:827)
+==114904==    by 0x12761D: suffixedexp (lparser.c:848)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x149E6A: luaK_exp2RK (lcode.c:740)
+==114904==    by 0x14A544: luaK_indexed (lcode.c:928)
+==114904==    by 0x1259E5: singlevar (lparser.c:270)
+==114904==    by 0x1275BE: primaryexp (lparser.c:827)
+==114904==    by 0x12761D: suffixedexp (lparser.c:848)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x148CFE: luaK_codeABC (lcode.c:303)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149C5B: luaK_exp2anyreg (lcode.c:681)
+==114904==    by 0x149D16: luaK_exp2anyregup (lcode.c:700)
+==114904==    by 0x126A3C: fieldsel (lparser.c:572)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x52378DA: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133335: printcode (lvm.c:133)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149C5B: luaK_exp2anyreg (lcode.c:681)
+==114904==    by 0x149D16: luaK_exp2anyregup (lcode.c:700)
+==114904==    by 0x126A3C: fieldsel (lparser.c:572)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x523386B: _itoa_word (_itoa.c:179)
+==114904==    by 0x5236F0D: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133335: printcode (lvm.c:133)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149C5B: luaK_exp2anyreg (lcode.c:681)
+==114904==    by 0x149D16: luaK_exp2anyregup (lcode.c:700)
+==114904==    by 0x126A3C: fieldsel (lparser.c:572)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5233875: _itoa_word (_itoa.c:179)
+==114904==    by 0x5236F0D: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133335: printcode (lvm.c:133)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149C5B: luaK_exp2anyreg (lcode.c:681)
+==114904==    by 0x149D16: luaK_exp2anyregup (lcode.c:700)
+==114904==    by 0x126A3C: fieldsel (lparser.c:572)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237014: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133335: printcode (lvm.c:133)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149C5B: luaK_exp2anyreg (lcode.c:681)
+==114904==    by 0x149D16: luaK_exp2anyregup (lcode.c:700)
+==114904==    by 0x126A3C: fieldsel (lparser.c:572)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237B4C: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133335: printcode (lvm.c:133)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149C5B: luaK_exp2anyreg (lcode.c:681)
+==114904==    by 0x149D16: luaK_exp2anyregup (lcode.c:700)
+==114904==    by 0x126A3C: fieldsel (lparser.c:572)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904== 
+0 OP_GETTABUP: A 0,B 0,C 256
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x1491E6: addk (lcode.c:424)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x12527B: checkname (lparser.c:136)
+==114904==    by 0x126A5B: fieldsel (lparser.c:574)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x14923A: addk (lcode.c:427)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x12527B: checkname (lparser.c:136)
+==114904==    by 0x126A5B: fieldsel (lparser.c:574)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x149E6A: luaK_exp2RK (lcode.c:740)
+==114904==    by 0x14A544: luaK_indexed (lcode.c:928)
+==114904==    by 0x126A72: fieldsel (lparser.c:575)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x148CFE: luaK_codeABC (lcode.c:303)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149BF0: luaK_exp2nextreg (lcode.c:670)
+==114904==    by 0x12771D: suffixedexp (lparser.c:873)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x52378DA: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133373: printcode (lvm.c:137)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149BF0: luaK_exp2nextreg (lcode.c:670)
+==114904==    by 0x12771D: suffixedexp (lparser.c:873)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x523386B: _itoa_word (_itoa.c:179)
+==114904==    by 0x5236F0D: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133373: printcode (lvm.c:137)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149BF0: luaK_exp2nextreg (lcode.c:670)
+==114904==    by 0x12771D: suffixedexp (lparser.c:873)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5233875: _itoa_word (_itoa.c:179)
+==114904==    by 0x5236F0D: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133373: printcode (lvm.c:137)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149BF0: luaK_exp2nextreg (lcode.c:670)
+==114904==    by 0x12771D: suffixedexp (lparser.c:873)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237014: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133373: printcode (lvm.c:137)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149BF0: luaK_exp2nextreg (lcode.c:670)
+==114904==    by 0x12771D: suffixedexp (lparser.c:873)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237B4C: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133373: printcode (lvm.c:137)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x149750: luaK_dischargevars (lcode.c:545)
+==114904==    by 0x149BF0: luaK_exp2nextreg (lcode.c:670)
+==114904==    by 0x12771D: suffixedexp (lparser.c:873)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904== 
+1 OP_GETTABLE: A 0,B 0,C 257
+2 OP_CALL: A 0,B 1,C 2
+3 OP_GETTABUP: A 0,B 0,C 258
+4 OP_GETTABUP: A 0,B 0,C 259
+5 OP_GETTABLE: A 0,B 2,C 260
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x1491E6: addk (lcode.c:424)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x127857: simpleexp (lparser.c:898)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904==    by 0x127733: suffixedexp (lparser.c:874)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x14923A: addk (lcode.c:427)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x127857: simpleexp (lparser.c:898)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904==    by 0x127733: suffixedexp (lparser.c:874)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x148EA5: luaK_codek (lcode.c:331)
+==114904==    by 0x149837: discharge2reg (lcode.c:577)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x12730B: explist (lparser.c:758)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904==    by 0x127733: suffixedexp (lparser.c:874)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x148DF8: luaK_codeABx (lcode.c:313)
+==114904==    by 0x148EBD: luaK_codek (lcode.c:332)
+==114904==    by 0x149837: discharge2reg (lcode.c:577)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x12730B: explist (lparser.c:758)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904==    by 0x127733: suffixedexp (lparser.c:874)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x52378DA: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133235: printcode (lvm.c:117)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148E37: luaK_codeABx (lcode.c:314)
+==114904==    by 0x148EBD: luaK_codek (lcode.c:332)
+==114904==    by 0x149837: discharge2reg (lcode.c:577)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x12730B: explist (lparser.c:758)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904==    by 0x127733: suffixedexp (lparser.c:874)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x523386B: _itoa_word (_itoa.c:179)
+==114904==    by 0x5236F0D: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133235: printcode (lvm.c:117)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148E37: luaK_codeABx (lcode.c:314)
+==114904==    by 0x148EBD: luaK_codek (lcode.c:332)
+==114904==    by 0x149837: discharge2reg (lcode.c:577)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x12730B: explist (lparser.c:758)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5233875: _itoa_word (_itoa.c:179)
+==114904==    by 0x5236F0D: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133235: printcode (lvm.c:117)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148E37: luaK_codeABx (lcode.c:314)
+==114904==    by 0x148EBD: luaK_codek (lcode.c:332)
+==114904==    by 0x149837: discharge2reg (lcode.c:577)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x12730B: explist (lparser.c:758)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237014: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133235: printcode (lvm.c:117)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148E37: luaK_codeABx (lcode.c:314)
+==114904==    by 0x148EBD: luaK_codek (lcode.c:332)
+==114904==    by 0x149837: discharge2reg (lcode.c:577)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x12730B: explist (lparser.c:758)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904==    by 0x127733: suffixedexp (lparser.c:874)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237B4C: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133235: printcode (lvm.c:117)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148E37: luaK_codeABx (lcode.c:314)
+==114904==    by 0x148EBD: luaK_codek (lcode.c:332)
+==114904==    by 0x149837: discharge2reg (lcode.c:577)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x12730B: explist (lparser.c:758)
+==114904==    by 0x1273BE: funcargs (lparser.c:775)
+==114904==    by 0x127733: suffixedexp (lparser.c:874)
+==114904== 
+6 OP_LOADK: A 3,Bx 5
+7 OP_MOVE: A 4,Bx 0
+8 OP_CALL: A 2,B 3,C 2
+9 OP_CALL: A 1,B 0,C 2
+10 OP_NEWTABLE: A 0,B 0,C 0
+11 OP_LOADK: A 2,Bx 6
+12 OP_LOADK: A 3,Bx 7
+13 OP_LOADK: A 4,Bx 8
+14 OP_LOADK: A 5,Bx 9
+15 OP_SETLIST: A 1,B 4,C 1
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x110058: luaH_gset_int (ltable.c:913)
+==114904==    by 0x1491C6: addk (lcode.c:422)
+==114904==    by 0x149349: luaK_intK (lcode.c:451)
+==114904==    by 0x149888: discharge2reg (lcode.c:585)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x125A9D: adjust_assign (lparser.c:286)
+==114904==    by 0x128F57: localstat (lparser.c:1413)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904==    by 0x129971: luaY_parser (lparser.c:1598)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x11005F: luaH_gset_int (ltable.c:913)
+==114904==    by 0x1491C6: addk (lcode.c:422)
+==114904==    by 0x149349: luaK_intK (lcode.c:451)
+==114904==    by 0x149888: discharge2reg (lcode.c:585)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x125A9D: adjust_assign (lparser.c:286)
+==114904==    by 0x128F57: localstat (lparser.c:1413)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904==    by 0x129971: luaY_parser (lparser.c:1598)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x110081: luaH_gset_int (ltable.c:914)
+==114904==    by 0x1491C6: addk (lcode.c:422)
+==114904==    by 0x149349: luaK_intK (lcode.c:451)
+==114904==    by 0x149888: discharge2reg (lcode.c:585)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x125A9D: adjust_assign (lparser.c:286)
+==114904==    by 0x128F57: localstat (lparser.c:1413)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904==    by 0x129971: luaY_parser (lparser.c:1598)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x1491E6: addk (lcode.c:424)
+==114904==    by 0x149349: luaK_intK (lcode.c:451)
+==114904==    by 0x149888: discharge2reg (lcode.c:585)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x125A9D: adjust_assign (lparser.c:286)
+==114904==    by 0x128F57: localstat (lparser.c:1413)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904==    by 0x129971: luaY_parser (lparser.c:1598)
+==114904==    by 0x11BF86: f_parser (ldo.c:753)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x14923A: addk (lcode.c:427)
+==114904==    by 0x149349: luaK_intK (lcode.c:451)
+==114904==    by 0x149888: discharge2reg (lcode.c:585)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x125A9D: adjust_assign (lparser.c:286)
+==114904==    by 0x128F57: localstat (lparser.c:1413)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904==    by 0x129971: luaY_parser (lparser.c:1598)
+==114904==    by 0x11BF86: f_parser (ldo.c:753)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x148EA5: luaK_codek (lcode.c:331)
+==114904==    by 0x14989B: discharge2reg (lcode.c:585)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x125A9D: adjust_assign (lparser.c:286)
+==114904==    by 0x128F57: localstat (lparser.c:1413)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904==    by 0x129971: luaY_parser (lparser.c:1598)
+==114904==    by 0x11BF86: f_parser (ldo.c:753)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x148DF8: luaK_codeABx (lcode.c:313)
+==114904==    by 0x148EBD: luaK_codek (lcode.c:332)
+==114904==    by 0x14989B: discharge2reg (lcode.c:585)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x125A9D: adjust_assign (lparser.c:286)
+==114904==    by 0x128F57: localstat (lparser.c:1413)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904==    by 0x129971: luaY_parser (lparser.c:1598)
+==114904==    by 0x11BF86: f_parser (ldo.c:753)
+==114904== 
+16 OP_LOADK: A 2,Bx 10
+17 OP_NEWTABLE: A 0,B 0,C 0
+18 OP_LOADK: A 4,Bx 11
+19 OP_LOADK: A 5,Bx 12
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x14916E: addk (lcode.c:415)
+==114904==    by 0x149349: luaK_intK (lcode.c:451)
+==114904==    by 0x1288DA: fornum (lparser.c:1289)
+==114904==    by 0x128B18: forstat (lparser.c:1329)
+==114904==    by 0x1294CC: statement (lparser.c:1509)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x1296CC: mainfunc (lparser.c:1569)
+==114904==    by 0x129971: luaY_parser (lparser.c:1598)
+==114904==    by 0x11BF86: f_parser (ldo.c:753)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x11C0D6: luaD_protectedparser (ldo.c:774)
+==114904== 
+20 OP_LOADK: A 6,Bx 11
+21 OP_FORPREP: A 4,B -1
+22 OP_NEWTABLE: A 0,B 0,C 0
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x149E6A: luaK_exp2RK (lcode.c:740)
+==114904==    by 0x126BAA: recfield (lparser.c:614)
+==114904==    by 0x126E23: field (lparser.c:660)
+==114904==    by 0x126F77: constructor (lparser.c:692)
+==114904==    by 0x127924: simpleexp (lparser.c:921)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x127FF3: assignment (lparser.c:1129)
+==114904==    by 0x129108: exprstat (lparser.c:1448)
+==114904==    by 0x1295B4: statement (lparser.c:1544)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x148CF5: luaK_codeABC (lcode.c:303)
+==114904==    by 0x126BF7: recfield (lparser.c:616)
+==114904==    by 0x126E23: field (lparser.c:660)
+==114904==    by 0x126F77: constructor (lparser.c:692)
+==114904==    by 0x127924: simpleexp (lparser.c:921)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x127FF3: assignment (lparser.c:1129)
+==114904==    by 0x129108: exprstat (lparser.c:1448)
+==114904==    by 0x1295B4: statement (lparser.c:1544)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x52378DA: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x13341B: printcode (lvm.c:148)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x126BF7: recfield (lparser.c:616)
+==114904==    by 0x126E23: field (lparser.c:660)
+==114904==    by 0x126F77: constructor (lparser.c:692)
+==114904==    by 0x127924: simpleexp (lparser.c:921)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x523386B: _itoa_word (_itoa.c:179)
+==114904==    by 0x5236F0D: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x13341B: printcode (lvm.c:148)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x126BF7: recfield (lparser.c:616)
+==114904==    by 0x126E23: field (lparser.c:660)
+==114904==    by 0x126F77: constructor (lparser.c:692)
+==114904==    by 0x127924: simpleexp (lparser.c:921)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5233875: _itoa_word (_itoa.c:179)
+==114904==    by 0x5236F0D: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x13341B: printcode (lvm.c:148)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x126BF7: recfield (lparser.c:616)
+==114904==    by 0x126E23: field (lparser.c:660)
+==114904==    by 0x126F77: constructor (lparser.c:692)
+==114904==    by 0x127924: simpleexp (lparser.c:921)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237014: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x13341B: printcode (lvm.c:148)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x126BF7: recfield (lparser.c:616)
+==114904==    by 0x126E23: field (lparser.c:660)
+==114904==    by 0x126F77: constructor (lparser.c:692)
+==114904==    by 0x127924: simpleexp (lparser.c:921)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237B4C: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x13341B: printcode (lvm.c:148)
+==114904==    by 0x148C01: luaK_code (lcode.c:291)
+==114904==    by 0x148D45: luaK_codeABC (lcode.c:304)
+==114904==    by 0x126BF7: recfield (lparser.c:616)
+==114904==    by 0x126E23: field (lparser.c:660)
+==114904==    by 0x126F77: constructor (lparser.c:692)
+==114904==    by 0x127924: simpleexp (lparser.c:921)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904== 
+23 OP_SETTABLE: A 8,B 269,C 7
+24 OP_MOVE: A 3,Bx 8
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x14916E: addk (lcode.c:415)
+==114904==    by 0x149349: luaK_intK (lcode.c:451)
+==114904==    by 0x149888: discharge2reg (lcode.c:585)
+==114904==    by 0x149A67: exp2reg (lcode.c:643)
+==114904==    by 0x149C35: luaK_exp2nextreg (lcode.c:673)
+==114904==    by 0x128603: exp1 (lparser.c:1243)
+==114904==    by 0x128889: fornum (lparser.c:1283)
+==114904==    by 0x128B18: forstat (lparser.c:1329)
+==114904==    by 0x1294CC: statement (lparser.c:1509)
+==114904==    by 0x1269E7: statlist (lparser.c:564)
+==114904==    by 0x127D8B: block (lparser.c:1069)
+==114904==    by 0x128715: forbody (lparser.c:1260)
+==114904== 
+25 OP_LOADK: A 8,Bx 11
+26 OP_LEN: A 0,B 1
+27 OP_LOADK: A 10,Bx 11
+28 OP_FORPREP: A 8,B -1
+29 OP_GETTABLE: A 0,B 1,C 11
+30 OP_ADD: A 0,B 7,C 11
+31 OP_SETTABLE: A 3,B 12,C 13
+32 OP_ADD: A 0,B 2,C 7
+fixjump 28 33
+33 OP_FORLOOP: A 8,B -1
+fixjump 33 29
+34 OP_NEWTABLE: A 0,B 0,C 0
+35 OP_MOVE: A 3,Bx 8
+36 OP_LOADK: A 8,Bx 11
+37 OP_LEN: A 0,B 1
+38 OP_LOADK: A 10,Bx 11
+39 OP_FORPREP: A 8,B -1
+40 OP_GETTABLE: A 0,B 1,C 11
+41 OP_SETTABLE: A 3,B 12,C 7
+fixjump 39 42
+42 OP_FORLOOP: A 8,B -1
+fixjump 42 40
+fixjump 21 43
+43 OP_FORLOOP: A 4,B -1
+fixjump 43 22
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x14916E: addk (lcode.c:415)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x1259CE: singlevar (lparser.c:269)
+==114904==    by 0x1275BE: primaryexp (lparser.c:827)
+==114904==    by 0x12761D: suffixedexp (lparser.c:848)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904== 
+44 OP_GETTABUP: A 0,B 0,C 256
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x14916E: addk (lcode.c:415)
+==114904==    by 0x1492F9: luaK_stringK (lcode.c:441)
+==114904==    by 0x125233: codestring (lparser.c:132)
+==114904==    by 0x12527B: checkname (lparser.c:136)
+==114904==    by 0x126A5B: fieldsel (lparser.c:574)
+==114904==    by 0x127676: suffixedexp (lparser.c:852)
+==114904==    by 0x127965: simpleexp (lparser.c:930)
+==114904==    by 0x127C28: subexpr (lparser.c:1034)
+==114904==    by 0x127D3D: expr (lparser.c:1053)
+==114904==    by 0x1272F2: explist (lparser.c:756)
+==114904==    by 0x128F2E: localstat (lparser.c:1408)
+==114904==    by 0x12953B: statement (lparser.c:1525)
+==114904== 
+45 OP_GETTABLE: A 0,B 4,C 257
+46 OP_CALL: A 4,B 1,C 2
+47 OP_GETTABUP: A 0,B 0,C 258
+48 OP_GETTABUP: A 0,B 0,C 259
+49 OP_GETTABLE: A 0,B 6,C 260
+50 OP_LOADK: A 7,Bx 14
+51 OP_MOVE: A 8,Bx 4
+52 OP_MOVE: A 9,Bx 2
+53 OP_CALL: A 6,B 4,C 2
+54 OP_CALL: A 5,B 0,C 2
+55 OP_GETTABUP: A 0,B 0,C 258
+56 OP_GETTABUP: A 0,B 0,C 259
+57 OP_GETTABLE: A 0,B 6,C 260
+58 OP_LOADK: A 7,Bx 15
+59 OP_SUB: A 0,B 4,C 0
+60 OP_CALL: A 6,B 3,C 2
+61 OP_CALL: A 5,B 0,C 2
+62 OP_RETURN: A 0,B 1
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x12ED5B: luaM_realloc_ (lmem.c:81)
+==114904==    by 0x129A34: luaY_parser (lparser.c:1602)
+==114904==    by 0x11BF86: f_parser (ldo.c:753)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x11C0D6: luaD_protectedparser (ldo.c:774)
+==114904==    by 0x14230D: lua_load (lapi.c:1012)
+==114904==    by 0x1148E5: luaL_loadfilex (lauxlib.c:677)
+==114904==    by 0x12FC75: handle_script (lua.c:442)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x4C321F4: realloc (vg_replace_malloc.c:836)
+==114904==    by 0x12ED8C: luaM_realloc_ (lmem.c:86)
+==114904==    by 0x129A34: luaY_parser (lparser.c:1602)
+==114904==    by 0x11BF86: f_parser (ldo.c:753)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x11C0D6: luaD_protectedparser (ldo.c:774)
+==114904==    by 0x14230D: lua_load (lapi.c:1012)
+==114904==    by 0x1148E5: luaL_loadfilex (lauxlib.c:677)
+==114904==    by 0x12FC75: handle_script (lua.c:442)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x52378DA: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133335: printcode (lvm.c:133)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237014: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133335: printcode (lvm.c:133)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237B4C: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133335: printcode (lvm.c:133)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+0 OP_GETTABUP: A 0,B 0,C 256
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x1360A4: luaV_execute (lvm.c:1039)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x13613B: luaV_execute (lvm.c:1041)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x52378DA: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133373: printcode (lvm.c:137)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237014: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133373: printcode (lvm.c:137)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237B4C: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133373: printcode (lvm.c:137)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+1 OP_GETTABLE: A 0,B 0,C 257
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x136277: luaV_execute (lvm.c:1047)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x1362A2: luaV_execute (lvm.c:1047)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x1362A9: luaV_execute (lvm.c:1047)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904== 
+2 OP_CALL: A 0,B 1,C 2
+3 OP_GETTABUP: A 1,B 0,C 258
+4 OP_GETTABUP: A 2,B 0,C 259
+5 OP_GETTABLE: A 2,B 2,C 260
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x52378DA: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133235: printcode (lvm.c:117)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237014: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133235: printcode (lvm.c:117)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237B4C: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x133235: printcode (lvm.c:117)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+6 OP_LOADK: A 3,Bx 5
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x132ED3: setobj (lobject.h:597)
+==114904==    by 0x135D80: luaV_execute (lvm.c:1010)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904== 
+7 OP_MOVE: A 4,Bx 0
+8 OP_CALL: A 2,B 3,C 0
+9 OP_CALL: A 1,B 0,C 1
+start time : 1.0533
+10 OP_NEWTABLE: A 1,B 4,C 0
+11 OP_LOADK: A 2,Bx 6
+12 OP_LOADK: A 3,Bx 7
+13 OP_LOADK: A 4,Bx 8
+14 OP_LOADK: A 5,Bx 9
+15 OP_SETLIST: A 1,B 4,C 1
+16 OP_LOADK: A 2,Bx 10
+17 OP_NEWTABLE: A 3,B 0,C 0
+18 OP_LOADK: A 4,Bx 11
+19 OP_LOADK: A 5,Bx 12
+20 OP_LOADK: A 6,Bx 11
+21 OP_FORPREP: A 4,B 21
+22 OP_FORLOOP: A 4,B -22
+23 OP_NEWTABLE: A 8,B 0,C 1
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x52378DA: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x13341B: printcode (lvm.c:148)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237014: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x13341B: printcode (lvm.c:148)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x5237B4C: vfprintf (vfprintf.c:1642)
+==114904==    by 0x523FF25: printf (printf.c:33)
+==114904==    by 0x13341B: printcode (lvm.c:148)
+==114904==    by 0x135CCC: luaV_execute (lvm.c:1002)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904== 
+24 OP_SETTABLE: A 8,B 269,C 7
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x136652: luaV_execute (lvm.c:1066)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904== 
+==114904== Use of uninitialised value of size 8
+==114904==    at 0x13668F: luaV_execute (lvm.c:1066)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904==    by 0x12F21D: docall (lua.c:205)
+==114904==    by 0x12FCA3: handle_script (lua.c:445)
+==114904==    by 0x130203: pmain (lua.c:580)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904== 
+25 OP_MOVE: A 3,Bx 8
+26 OP_LOADK: A 8,Bx 11
+27 OP_LEN: A 9,B 1
+28 OP_LOADK: A 10,Bx 11
+29 OP_FORPREP: A 8,B 4
+30 OP_FORLOOP: A 8,B -5
+31 OP_GETTABLE: A 12,B 1,C 11
+32 OP_ADD: A 13,B 7,C 11
+33 OP_SETTABLE: A 3,B 12,C 13
+34 OP_ADD: A 2,B 2,C 7
+35 OP_FORLOOP: A 8,B -5
+36 OP_GETTABLE: A 12,B 1,C 11
+37 OP_ADD: A 13,B 7,C 11
+38 OP_SETTABLE: A 3,B 12,C 13
+39 OP_ADD: A 2,B 2,C 7
+40 OP_FORLOOP: A 8,B -5
+41 OP_GETTABLE: A 12,B 1,C 11
+42 OP_ADD: A 13,B 7,C 11
+43 OP_SETTABLE: A 3,B 12,C 13
+44 OP_ADD: A 2,B 2,C 7
+45 OP_FORLOOP: A 8,B -5
+46 OP_GETTABLE: A 12,B 1,C 11
+47 OP_ADD: A 13,B 7,C 11
+48 OP_SETTABLE: A 3,B 12,C 13
+49 OP_ADD: A 2,B 2,C 7
+50 OP_FORLOOP: A 8,B -5
+51 OP_NEWTABLE: A 8,B 0,C 0
+52 OP_MOVE: A 3,Bx 8
+53 OP_LOADK: A 8,Bx 11
+54 OP_LEN: A 9,B 1
+55 OP_LOADK: A 10,Bx 11
+56 OP_FORPREP: A 8,B 2
+57 OP_FORLOOP: A 8,B -3
+58 OP_GETTABLE: A 12,B 1,C 11
+59 OP_SETTABLE: A 3,B 12,C 7
+60 OP_FORLOOP: A 8,B -3
+61 OP_GETTABLE: A 12,B 1,C 11
+62 OP_SETTABLE: A 3,B 12,C 7
+63 OP_FORLOOP: A 8,B -3
+64 OP_GETTABLE: A 12,B 1,C 11
+65 OP_SETTABLE: A 3,B 12,C 7
+66 OP_FORLOOP: A 8,B -3
+67 OP_GETTABLE: A 12,B 1,C 11
+68 OP_SETTABLE: A 3,B 12,C 7
+69 OP_FORLOOP: A 8,B -3
+70 OP_FORLOOP: A 4,B -22
+71 OP_NEWTABLE: A 8,B 0,C 1
+72 OP_SETTABLE: A 8,B 269,C 7
+73 OP_MOVE: A 3,Bx 8
+74 OP_LOADK: A 8,Bx 11
+75 OP_LEN: A 9,B 1
+76 OP_LOADK: A 10,Bx 11
+77 OP_FORPREP: A 8,B 4
+78 OP_FORLOOP: A 8,B -5
+79 OP_GETTABLE: A 12,B 1,C 11
+80 OP_ADD: A 13,B 7,C 11
+81 OP_SETTABLE: A 3,B 12,C 13
+82 OP_ADD: A 2,B 2,C 7
+83 OP_FORLOOP: A 8,B -5
+84 OP_GETTABLE: A 12,B 1,C 11
+85 OP_ADD: A 13,B 7,C 11
+86 OP_SETTABLE: A 3,B 12,C 13
+87 OP_ADD: A 2,B 2,C 7
+88 OP_FORLOOP: A 8,B -5
+89 OP_GETTABLE: A 12,B 1,C 11
+90 OP_ADD: A 13,B 7,C 11
+91 OP_SETTABLE: A 3,B 12,C 13
+92 OP_ADD: A 2,B 2,C 7
+93 OP_FORLOOP: A 8,B -5
+94 OP_GETTABLE: A 12,B 1,C 11
+95 OP_ADD: A 13,B 7,C 11
+96 OP_SETTABLE: A 3,B 12,C 13
+97 OP_ADD: A 2,B 2,C 7
+98 OP_FORLOOP: A 8,B -5
+99 OP_NEWTABLE: A 8,B 0,C 0
+100 OP_MOVE: A 3,Bx 8
+101 OP_LOADK: A 8,Bx 11
+102 OP_LEN: A 9,B 1
+103 OP_LOADK: A 10,Bx 11
+104 OP_FORPREP: A 8,B 2
+105 OP_FORLOOP: A 8,B -3
+106 OP_GETTABLE: A 12,B 1,C 11
+107 OP_SETTABLE: A 3,B 12,C 7
+108 OP_FORLOOP: A 8,B -3
+109 OP_GETTABLE: A 12,B 1,C 11
+110 OP_SETTABLE: A 3,B 12,C 7
+111 OP_FORLOOP: A 8,B -3
+112 OP_GETTABLE: A 12,B 1,C 11
+113 OP_SETTABLE: A 3,B 12,C 7
+114 OP_FORLOOP: A 8,B -3
+115 OP_GETTABLE: A 12,B 1,C 11
+116 OP_SETTABLE: A 3,B 12,C 7
+117 OP_FORLOOP: A 8,B -3
+118 OP_FORLOOP: A 4,B -22
+119 OP_NEWTABLE: A 8,B 0,C 1
+120 OP_SETTABLE: A 8,B 269,C 7
+121 OP_MOVE: A 3,Bx 8
+122 OP_LOADK: A 8,Bx 11
+123 OP_LEN: A 9,B 1
+124 OP_LOADK: A 10,Bx 11
+125 OP_FORPREP: A 8,B 4
+126 OP_FORLOOP: A 8,B -5
+127 OP_GETTABLE: A 12,B 1,C 11
+128 OP_ADD: A 13,B 7,C 11
+129 OP_SETTABLE: A 3,B 12,C 13
+130 OP_ADD: A 2,B 2,C 7
+131 OP_FORLOOP: A 8,B -5
+132 OP_GETTABLE: A 12,B 1,C 11
+133 OP_ADD: A 13,B 7,C 11
+134 OP_SETTABLE: A 3,B 12,C 13
+135 OP_ADD: A 2,B 2,C 7
+136 OP_FORLOOP: A 8,B -5
+137 OP_GETTABLE: A 12,B 1,C 11
+138 OP_ADD: A 13,B 7,C 11
+139 OP_SETTABLE: A 3,B 12,C 13
+140 OP_ADD: A 2,B 2,C 7
+141 OP_FORLOOP: A 8,B -5
+142 OP_GETTABLE: A 12,B 1,C 11
+143 OP_ADD: A 13,B 7,C 11
+144 OP_SETTABLE: A 3,B 12,C 13
+145 OP_ADD: A 2,B 2,C 7
+146 OP_FORLOOP: A 8,B -5
+147 OP_NEWTABLE: A 8,B 0,C 0
+148 OP_MOVE: A 3,Bx 8
+149 OP_LOADK: A 8,Bx 11
+150 OP_LEN: A 9,B 1
+151 OP_LOADK: A 10,Bx 11
+152 OP_FORPREP: A 8,B 2
+153 OP_FORLOOP: A 8,B -3
+154 OP_GETTABLE: A 12,B 1,C 11
+155 OP_SETTABLE: A 3,B 12,C 7
+156 OP_FORLOOP: A 8,B -3
+157 OP_GETTABLE: A 12,B 1,C 11
+158 OP_SETTABLE: A 3,B 12,C 7
+159 OP_FORLOOP: A 8,B -3
+160 OP_GETTABLE: A 12,B 1,C 11
+161 OP_SETTABLE: A 3,B 12,C 7
+162 OP_FORLOOP: A 8,B -3
+163 OP_GETTABLE: A 12,B 1,C 11
+164 OP_SETTABLE: A 3,B 12,C 7
+165 OP_FORLOOP: A 8,B -3
+166 OP_FORLOOP: A 4,B -22
+167 OP_NEWTABLE: A 8,B 0,C 1
+168 OP_SETTABLE: A 8,B 269,C 7
+169 OP_MOVE: A 3,Bx 8
+170 OP_LOADK: A 8,Bx 11
+171 OP_LEN: A 9,B 1
+172 OP_LOADK: A 10,Bx 11
+173 OP_FORPREP: A 8,B 4
+174 OP_FORLOOP: A 8,B -5
+175 OP_GETTABLE: A 12,B 1,C 11
+176 OP_ADD: A 13,B 7,C 11
+177 OP_SETTABLE: A 3,B 12,C 13
+178 OP_ADD: A 2,B 2,C 7
+179 OP_FORLOOP: A 8,B -5
+180 OP_GETTABLE: A 12,B 1,C 11
+181 OP_ADD: A 13,B 7,C 11
+182 OP_SETTABLE: A 3,B 12,C 13
+183 OP_ADD: A 2,B 2,C 7
+184 OP_FORLOOP: A 8,B -5
+185 OP_GETTABLE: A 12,B 1,C 11
+186 OP_ADD: A 13,B 7,C 11
+187 OP_SETTABLE: A 3,B 12,C 13
+188 OP_ADD: A 2,B 2,C 7
+189 OP_FORLOOP: A 8,B -5
+190 OP_GETTABLE: A 12,B 1,C 11
+191 OP_ADD: A 13,B 7,C 11
+192 OP_SETTABLE: A 3,B 12,C 13
+193 OP_ADD: A 2,B 2,C 7
+194 OP_FORLOOP: A 8,B -5
+195 OP_NEWTABLE: A 8,B 0,C 0
+196 OP_MOVE: A 3,Bx 8
+197 OP_LOADK: A 8,Bx 11
+198 OP_LEN: A 9,B 1
+199 OP_LOADK: A 10,Bx 11
+200 OP_FORPREP: A 8,B 2
+201 OP_FORLOOP: A 8,B -3
+202 OP_GETTABLE: A 12,B 1,C 11
+203 OP_SETTABLE: A 3,B 12,C 7
+204 OP_FORLOOP: A 8,B -3
+205 OP_GETTABLE: A 12,B 1,C 11
+206 OP_SETTABLE: A 3,B 12,C 7
+207 OP_FORLOOP: A 8,B -3
+208 OP_GETTABLE: A 12,B 1,C 11
+209 OP_SETTABLE: A 3,B 12,C 7
+210 OP_FORLOOP: A 8,B -3
+211 OP_GETTABLE: A 12,B 1,C 11
+212 OP_SETTABLE: A 3,B 12,C 7
+213 OP_FORLOOP: A 8,B -3
+214 OP_FORLOOP: A 4,B -22
+215 OP_NEWTABLE: A 8,B 0,C 1
+216 OP_SETTABLE: A 8,B 269,C 7
+217 OP_MOVE: A 3,Bx 8
+218 OP_LOADK: A 8,Bx 11
+219 OP_LEN: A 9,B 1
+220 OP_LOADK: A 10,Bx 11
+221 OP_FORPREP: A 8,B 4
+222 OP_FORLOOP: A 8,B -5
+223 OP_GETTABLE: A 12,B 1,C 11
+224 OP_ADD: A 13,B 7,C 11
+225 OP_SETTABLE: A 3,B 12,C 13
+226 OP_ADD: A 2,B 2,C 7
+227 OP_FORLOOP: A 8,B -5
+228 OP_GETTABLE: A 12,B 1,C 11
+229 OP_ADD: A 13,B 7,C 11
+230 OP_SETTABLE: A 3,B 12,C 13
+231 OP_ADD: A 2,B 2,C 7
+232 OP_FORLOOP: A 8,B -5
+233 OP_GETTABLE: A 12,B 1,C 11
+234 OP_ADD: A 13,B 7,C 11
+235 OP_SETTABLE: A 3,B 12,C 13
+236 OP_ADD: A 2,B 2,C 7
+237 OP_FORLOOP: A 8,B -5
+238 OP_GETTABLE: A 12,B 1,C 11
+239 OP_ADD: A 13,B 7,C 11
+240 OP_SETTABLE: A 3,B 12,C 13
+241 OP_ADD: A 2,B 2,C 7
+242 OP_FORLOOP: A 8,B -5
+243 OP_NEWTABLE: A 8,B 0,C 0
+244 OP_MOVE: A 3,Bx 8
+245 OP_LOADK: A 8,Bx 11
+246 OP_LEN: A 9,B 1
+247 OP_LOADK: A 10,Bx 11
+248 OP_FORPREP: A 8,B 2
+249 OP_FORLOOP: A 8,B -3
+250 OP_GETTABLE: A 12,B 1,C 11
+251 OP_SETTABLE: A 3,B 12,C 7
+252 OP_FORLOOP: A 8,B -3
+253 OP_GETTABLE: A 12,B 1,C 11
+254 OP_SETTABLE: A 3,B 12,C 7
+255 OP_FORLOOP: A 8,B -3
+256 OP_GETTABLE: A 12,B 1,C 11
+257 OP_SETTABLE: A 3,B 12,C 7
+258 OP_FORLOOP: A 8,B -3
+259 OP_GETTABLE: A 12,B 1,C 11
+260 OP_SETTABLE: A 3,B 12,C 7
+261 OP_FORLOOP: A 8,B -3
+262 OP_FORLOOP: A 4,B -22
+263 OP_NEWTABLE: A 8,B 0,C 1
+264 OP_SETTABLE: A 8,B 269,C 7
+265 OP_MOVE: A 3,Bx 8
+266 OP_LOADK: A 8,Bx 11
+267 OP_LEN: A 9,B 1
+268 OP_LOADK: A 10,Bx 11
+269 OP_FORPREP: A 8,B 4
+270 OP_FORLOOP: A 8,B -5
+271 OP_GETTABLE: A 12,B 1,C 11
+272 OP_ADD: A 13,B 7,C 11
+273 OP_SETTABLE: A 3,B 12,C 13
+274 OP_ADD: A 2,B 2,C 7
+275 OP_FORLOOP: A 8,B -5
+276 OP_GETTABLE: A 12,B 1,C 11
+277 OP_ADD: A 13,B 7,C 11
+278 OP_SETTABLE: A 3,B 12,C 13
+279 OP_ADD: A 2,B 2,C 7
+280 OP_FORLOOP: A 8,B -5
+281 OP_GETTABLE: A 12,B 1,C 11
+282 OP_ADD: A 13,B 7,C 11
+283 OP_SETTABLE: A 3,B 12,C 13
+284 OP_ADD: A 2,B 2,C 7
+285 OP_FORLOOP: A 8,B -5
+286 OP_GETTABLE: A 12,B 1,C 11
+287 OP_ADD: A 13,B 7,C 11
+288 OP_SETTABLE: A 3,B 12,C 13
+289 OP_ADD: A 2,B 2,C 7
+290 OP_FORLOOP: A 8,B -5
+291 OP_NEWTABLE: A 8,B 0,C 0
+292 OP_MOVE: A 3,Bx 8
+293 OP_LOADK: A 8,Bx 11
+294 OP_LEN: A 9,B 1
+295 OP_LOADK: A 10,Bx 11
+296 OP_FORPREP: A 8,B 2
+297 OP_FORLOOP: A 8,B -3
+298 OP_GETTABLE: A 12,B 1,C 11
+299 OP_SETTABLE: A 3,B 12,C 7
+300 OP_FORLOOP: A 8,B -3
+301 OP_GETTABLE: A 12,B 1,C 11
+302 OP_SETTABLE: A 3,B 12,C 7
+303 OP_FORLOOP: A 8,B -3
+304 OP_GETTABLE: A 12,B 1,C 11
+305 OP_SETTABLE: A 3,B 12,C 7
+306 OP_FORLOOP: A 8,B -3
+307 OP_GETTABLE: A 12,B 1,C 11
+308 OP_SETTABLE: A 3,B 12,C 7
+309 OP_FORLOOP: A 8,B -3
+310 OP_FORLOOP: A 4,B -22
+311 OP_NEWTABLE: A 8,B 0,C 1
+312 OP_SETTABLE: A 8,B 269,C 7
+313 OP_MOVE: A 3,Bx 8
+314 OP_LOADK: A 8,Bx 11
+315 OP_LEN: A 9,B 1
+316 OP_LOADK: A 10,Bx 11
+317 OP_FORPREP: A 8,B 4
+318 OP_FORLOOP: A 8,B -5
+319 OP_GETTABLE: A 12,B 1,C 11
+320 OP_ADD: A 13,B 7,C 11
+321 OP_SETTABLE: A 3,B 12,C 13
+322 OP_ADD: A 2,B 2,C 7
+323 OP_FORLOOP: A 8,B -5
+324 OP_GETTABLE: A 12,B 1,C 11
+325 OP_ADD: A 13,B 7,C 11
+326 OP_SETTABLE: A 3,B 12,C 13
+327 OP_ADD: A 2,B 2,C 7
+328 OP_FORLOOP: A 8,B -5
+329 OP_GETTABLE: A 12,B 1,C 11
+330 OP_ADD: A 13,B 7,C 11
+331 OP_SETTABLE: A 3,B 12,C 13
+332 OP_ADD: A 2,B 2,C 7
+333 OP_FORLOOP: A 8,B -5
+334 OP_GETTABLE: A 12,B 1,C 11
+335 OP_ADD: A 13,B 7,C 11
+336 OP_SETTABLE: A 3,B 12,C 13
+337 OP_ADD: A 2,B 2,C 7
+338 OP_FORLOOP: A 8,B -5
+339 OP_NEWTABLE: A 8,B 0,C 0
+340 OP_MOVE: A 3,Bx 8
+341 OP_LOADK: A 8,Bx 11
+342 OP_LEN: A 9,B 1
+343 OP_LOADK: A 10,Bx 11
+344 OP_FORPREP: A 8,B 2
+345 OP_FORLOOP: A 8,B -3
+346 OP_GETTABLE: A 12,B 1,C 11
+347 OP_SETTABLE: A 3,B 12,C 7
+348 OP_FORLOOP: A 8,B -3
+349 OP_GETTABLE: A 12,B 1,C 11
+350 OP_SETTABLE: A 3,B 12,C 7
+351 OP_FORLOOP: A 8,B -3
+352 OP_GETTABLE: A 12,B 1,C 11
+353 OP_SETTABLE: A 3,B 12,C 7
+354 OP_FORLOOP: A 8,B -3
+355 OP_GETTABLE: A 12,B 1,C 11
+356 OP_SETTABLE: A 3,B 12,C 7
+357 OP_FORLOOP: A 8,B -3
+358 OP_FORLOOP: A 4,B -22
+359 OP_NEWTABLE: A 8,B 0,C 1
+360 OP_SETTABLE: A 8,B 269,C 7
+361 OP_MOVE: A 3,Bx 8
+362 OP_LOADK: A 8,Bx 11
+363 OP_LEN: A 9,B 1
+364 OP_LOADK: A 10,Bx 11
+365 OP_FORPREP: A 8,B 4
+366 OP_FORLOOP: A 8,B -5
+367 OP_GETTABLE: A 12,B 1,C 11
+368 OP_ADD: A 13,B 7,C 11
+369 OP_SETTABLE: A 3,B 12,C 13
+370 OP_ADD: A 2,B 2,C 7
+371 OP_FORLOOP: A 8,B -5
+372 OP_GETTABLE: A 12,B 1,C 11
+373 OP_ADD: A 13,B 7,C 11
+374 OP_SETTABLE: A 3,B 12,C 13
+375 OP_ADD: A 2,B 2,C 7
+376 OP_FORLOOP: A 8,B -5
+377 OP_GETTABLE: A 12,B 1,C 11
+378 OP_ADD: A 13,B 7,C 11
+379 OP_SETTABLE: A 3,B 12,C 13
+380 OP_ADD: A 2,B 2,C 7
+381 OP_FORLOOP: A 8,B -5
+382 OP_GETTABLE: A 12,B 1,C 11
+383 OP_ADD: A 13,B 7,C 11
+384 OP_SETTABLE: A 3,B 12,C 13
+385 OP_ADD: A 2,B 2,C 7
+386 OP_FORLOOP: A 8,B -5
+387 OP_NEWTABLE: A 8,B 0,C 0
+388 OP_MOVE: A 3,Bx 8
+389 OP_LOADK: A 8,Bx 11
+390 OP_LEN: A 9,B 1
+391 OP_LOADK: A 10,Bx 11
+392 OP_FORPREP: A 8,B 2
+393 OP_FORLOOP: A 8,B -3
+394 OP_GETTABLE: A 12,B 1,C 11
+395 OP_SETTABLE: A 3,B 12,C 7
+396 OP_FORLOOP: A 8,B -3
+397 OP_GETTABLE: A 12,B 1,C 11
+398 OP_SETTABLE: A 3,B 12,C 7
+399 OP_FORLOOP: A 8,B -3
+400 OP_GETTABLE: A 12,B 1,C 11
+401 OP_SETTABLE: A 3,B 12,C 7
+402 OP_FORLOOP: A 8,B -3
+403 OP_GETTABLE: A 12,B 1,C 11
+404 OP_SETTABLE: A 3,B 12,C 7
+405 OP_FORLOOP: A 8,B -3
+406 OP_FORLOOP: A 4,B -22
+407 OP_NEWTABLE: A 8,B 0,C 1
+408 OP_SETTABLE: A 8,B 269,C 7
+409 OP_MOVE: A 3,Bx 8
+410 OP_LOADK: A 8,Bx 11
+411 OP_LEN: A 9,B 1
+412 OP_LOADK: A 10,Bx 11
+413 OP_FORPREP: A 8,B 4
+414 OP_FORLOOP: A 8,B -5
+415 OP_GETTABLE: A 12,B 1,C 11
+416 OP_ADD: A 13,B 7,C 11
+417 OP_SETTABLE: A 3,B 12,C 13
+418 OP_ADD: A 2,B 2,C 7
+419 OP_FORLOOP: A 8,B -5
+420 OP_GETTABLE: A 12,B 1,C 11
+421 OP_ADD: A 13,B 7,C 11
+422 OP_SETTABLE: A 3,B 12,C 13
+423 OP_ADD: A 2,B 2,C 7
+424 OP_FORLOOP: A 8,B -5
+425 OP_GETTABLE: A 12,B 1,C 11
+426 OP_ADD: A 13,B 7,C 11
+427 OP_SETTABLE: A 3,B 12,C 13
+428 OP_ADD: A 2,B 2,C 7
+429 OP_FORLOOP: A 8,B -5
+430 OP_GETTABLE: A 12,B 1,C 11
+431 OP_ADD: A 13,B 7,C 11
+432 OP_SETTABLE: A 3,B 12,C 13
+433 OP_ADD: A 2,B 2,C 7
+434 OP_FORLOOP: A 8,B -5
+435 OP_NEWTABLE: A 8,B 0,C 0
+436 OP_MOVE: A 3,Bx 8
+437 OP_LOADK: A 8,Bx 11
+438 OP_LEN: A 9,B 1
+439 OP_LOADK: A 10,Bx 11
+440 OP_FORPREP: A 8,B 2
+441 OP_FORLOOP: A 8,B -3
+442 OP_GETTABLE: A 12,B 1,C 11
+443 OP_SETTABLE: A 3,B 12,C 7
+444 OP_FORLOOP: A 8,B -3
+445 OP_GETTABLE: A 12,B 1,C 11
+446 OP_SETTABLE: A 3,B 12,C 7
+447 OP_FORLOOP: A 8,B -3
+448 OP_GETTABLE: A 12,B 1,C 11
+449 OP_SETTABLE: A 3,B 12,C 7
+450 OP_FORLOOP: A 8,B -3
+451 OP_GETTABLE: A 12,B 1,C 11
+452 OP_SETTABLE: A 3,B 12,C 7
+453 OP_FORLOOP: A 8,B -3
+454 OP_FORLOOP: A 4,B -22
+455 OP_NEWTABLE: A 8,B 0,C 1
+456 OP_SETTABLE: A 8,B 269,C 7
+457 OP_MOVE: A 3,Bx 8
+458 OP_LOADK: A 8,Bx 11
+459 OP_LEN: A 9,B 1
+460 OP_LOADK: A 10,Bx 11
+461 OP_FORPREP: A 8,B 4
+462 OP_FORLOOP: A 8,B -5
+463 OP_GETTABLE: A 12,B 1,C 11
+464 OP_ADD: A 13,B 7,C 11
+465 OP_SETTABLE: A 3,B 12,C 13
+466 OP_ADD: A 2,B 2,C 7
+467 OP_FORLOOP: A 8,B -5
+468 OP_GETTABLE: A 12,B 1,C 11
+469 OP_ADD: A 13,B 7,C 11
+470 OP_SETTABLE: A 3,B 12,C 13
+471 OP_ADD: A 2,B 2,C 7
+472 OP_FORLOOP: A 8,B -5
+473 OP_GETTABLE: A 12,B 1,C 11
+474 OP_ADD: A 13,B 7,C 11
+475 OP_SETTABLE: A 3,B 12,C 13
+476 OP_ADD: A 2,B 2,C 7
+477 OP_FORLOOP: A 8,B -5
+478 OP_GETTABLE: A 12,B 1,C 11
+479 OP_ADD: A 13,B 7,C 11
+480 OP_SETTABLE: A 3,B 12,C 13
+481 OP_ADD: A 2,B 2,C 7
+482 OP_FORLOOP: A 8,B -5
+483 OP_NEWTABLE: A 8,B 0,C 0
+484 OP_MOVE: A 3,Bx 8
+485 OP_LOADK: A 8,Bx 11
+486 OP_LEN: A 9,B 1
+487 OP_LOADK: A 10,Bx 11
+488 OP_FORPREP: A 8,B 2
+489 OP_FORLOOP: A 8,B -3
+490 OP_GETTABLE: A 12,B 1,C 11
+491 OP_SETTABLE: A 3,B 12,C 7
+492 OP_FORLOOP: A 8,B -3
+493 OP_GETTABLE: A 12,B 1,C 11
+494 OP_SETTABLE: A 3,B 12,C 7
+495 OP_FORLOOP: A 8,B -3
+496 OP_GETTABLE: A 12,B 1,C 11
+497 OP_SETTABLE: A 3,B 12,C 7
+498 OP_FORLOOP: A 8,B -3
+499 OP_GETTABLE: A 12,B 1,C 11
+500 OP_SETTABLE: A 3,B 12,C 7
+501 OP_FORLOOP: A 8,B -3
+502 OP_FORLOOP: A 4,B -22
+503 OP_NEWTABLE: A 8,B 0,C 1
+504 OP_SETTABLE: A 8,B 269,C 7
+505 OP_MOVE: A 3,Bx 8
+506 OP_LOADK: A 8,Bx 11
+507 OP_LEN: A 9,B 1
+508 OP_LOADK: A 10,Bx 11
+509 OP_FORPREP: A 8,B 4
+510 OP_FORLOOP: A 8,B -5
+511 OP_GETTABLE: A 12,B 1,C 11
+512 OP_ADD: A 13,B 7,C 11
+513 OP_SETTABLE: A 3,B 12,C 13
+514 OP_ADD: A 2,B 2,C 7
+515 OP_FORLOOP: A 8,B -5
+516 OP_GETTABLE: A 12,B 1,C 11
+517 OP_ADD: A 13,B 7,C 11
+518 OP_SETTABLE: A 3,B 12,C 13
+519 OP_ADD: A 2,B 2,C 7
+520 OP_FORLOOP: A 8,B -5
+521 OP_GETTABLE: A 12,B 1,C 11
+522 OP_ADD: A 13,B 7,C 11
+523 OP_SETTABLE: A 3,B 12,C 13
+524 OP_ADD: A 2,B 2,C 7
+525 OP_FORLOOP: A 8,B -5
+526 OP_GETTABLE: A 12,B 1,C 11
+527 OP_ADD: A 13,B 7,C 11
+528 OP_SETTABLE: A 3,B 12,C 13
+529 OP_ADD: A 2,B 2,C 7
+530 OP_FORLOOP: A 8,B -5
+531 OP_NEWTABLE: A 8,B 0,C 0
+532 OP_MOVE: A 3,Bx 8
+533 OP_LOADK: A 8,Bx 11
+534 OP_LEN: A 9,B 1
+535 OP_LOADK: A 10,Bx 11
+536 OP_FORPREP: A 8,B 2
+537 OP_FORLOOP: A 8,B -3
+538 OP_GETTABLE: A 12,B 1,C 11
+539 OP_SETTABLE: A 3,B 12,C 7
+540 OP_FORLOOP: A 8,B -3
+541 OP_GETTABLE: A 12,B 1,C 11
+542 OP_SETTABLE: A 3,B 12,C 7
+543 OP_FORLOOP: A 8,B -3
+544 OP_GETTABLE: A 12,B 1,C 11
+545 OP_SETTABLE: A 3,B 12,C 7
+546 OP_FORLOOP: A 8,B -3
+547 OP_GETTABLE: A 12,B 1,C 11
+548 OP_SETTABLE: A 3,B 12,C 7
+549 OP_FORLOOP: A 8,B -3
+550 OP_FORLOOP: A 4,B -22
+551 OP_NEWTABLE: A 8,B 0,C 1
+552 OP_SETTABLE: A 8,B 269,C 7
+553 OP_MOVE: A 3,Bx 8
+554 OP_LOADK: A 8,Bx 11
+555 OP_LEN: A 9,B 1
+556 OP_LOADK: A 10,Bx 11
+557 OP_FORPREP: A 8,B 4
+558 OP_FORLOOP: A 8,B -5
+559 OP_GETTABLE: A 12,B 1,C 11
+560 OP_ADD: A 13,B 7,C 11
+561 OP_SETTABLE: A 3,B 12,C 13
+562 OP_ADD: A 2,B 2,C 7
+563 OP_FORLOOP: A 8,B -5
+564 OP_GETTABLE: A 12,B 1,C 11
+565 OP_ADD: A 13,B 7,C 11
+566 OP_SETTABLE: A 3,B 12,C 13
+567 OP_ADD: A 2,B 2,C 7
+568 OP_FORLOOP: A 8,B -5
+569 OP_GETTABLE: A 12,B 1,C 11
+570 OP_ADD: A 13,B 7,C 11
+571 OP_SETTABLE: A 3,B 12,C 13
+572 OP_ADD: A 2,B 2,C 7
+573 OP_FORLOOP: A 8,B -5
+574 OP_GETTABLE: A 12,B 1,C 11
+575 OP_ADD: A 13,B 7,C 11
+576 OP_SETTABLE: A 3,B 12,C 13
+577 OP_ADD: A 2,B 2,C 7
+578 OP_FORLOOP: A 8,B -5
+579 OP_NEWTABLE: A 8,B 0,C 0
+580 OP_MOVE: A 3,Bx 8
+581 OP_LOADK: A 8,Bx 11
+582 OP_LEN: A 9,B 1
+583 OP_LOADK: A 10,Bx 11
+584 OP_FORPREP: A 8,B 2
+585 OP_FORLOOP: A 8,B -3
+586 OP_GETTABLE: A 12,B 1,C 11
+587 OP_SETTABLE: A 3,B 12,C 7
+588 OP_FORLOOP: A 8,B -3
+589 OP_GETTABLE: A 12,B 1,C 11
+590 OP_SETTABLE: A 3,B 12,C 7
+591 OP_FORLOOP: A 8,B -3
+592 OP_GETTABLE: A 12,B 1,C 11
+593 OP_SETTABLE: A 3,B 12,C 7
+594 OP_FORLOOP: A 8,B -3
+595 OP_GETTABLE: A 12,B 1,C 11
+596 OP_SETTABLE: A 3,B 12,C 7
+597 OP_FORLOOP: A 8,B -3
+598 OP_FORLOOP: A 4,B -22
+599 OP_NEWTABLE: A 8,B 0,C 1
+600 OP_SETTABLE: A 8,B 269,C 7
+601 OP_MOVE: A 3,Bx 8
+602 OP_LOADK: A 8,Bx 11
+603 OP_LEN: A 9,B 1
+604 OP_LOADK: A 10,Bx 11
+605 OP_FORPREP: A 8,B 4
+606 OP_FORLOOP: A 8,B -5
+607 OP_GETTABLE: A 12,B 1,C 11
+608 OP_ADD: A 13,B 7,C 11
+609 OP_SETTABLE: A 3,B 12,C 13
+610 OP_ADD: A 2,B 2,C 7
+611 OP_FORLOOP: A 8,B -5
+612 OP_GETTABLE: A 12,B 1,C 11
+613 OP_ADD: A 13,B 7,C 11
+614 OP_SETTABLE: A 3,B 12,C 13
+615 OP_ADD: A 2,B 2,C 7
+616 OP_FORLOOP: A 8,B -5
+617 OP_GETTABLE: A 12,B 1,C 11
+618 OP_ADD: A 13,B 7,C 11
+619 OP_SETTABLE: A 3,B 12,C 13
+620 OP_ADD: A 2,B 2,C 7
+621 OP_FORLOOP: A 8,B -5
+622 OP_GETTABLE: A 12,B 1,C 11
+623 OP_ADD: A 13,B 7,C 11
+624 OP_SETTABLE: A 3,B 12,C 13
+625 OP_ADD: A 2,B 2,C 7
+626 OP_FORLOOP: A 8,B -5
+627 OP_NEWTABLE: A 8,B 0,C 0
+628 OP_MOVE: A 3,Bx 8
+629 OP_LOADK: A 8,Bx 11
+630 OP_LEN: A 9,B 1
+631 OP_LOADK: A 10,Bx 11
+632 OP_FORPREP: A 8,B 2
+633 OP_FORLOOP: A 8,B -3
+634 OP_GETTABLE: A 12,B 1,C 11
+635 OP_SETTABLE: A 3,B 12,C 7
+636 OP_FORLOOP: A 8,B -3
+637 OP_GETTABLE: A 12,B 1,C 11
+638 OP_SETTABLE: A 3,B 12,C 7
+639 OP_FORLOOP: A 8,B -3
+640 OP_GETTABLE: A 12,B 1,C 11
+641 OP_SETTABLE: A 3,B 12,C 7
+642 OP_FORLOOP: A 8,B -3
+643 OP_GETTABLE: A 12,B 1,C 11
+644 OP_SETTABLE: A 3,B 12,C 7
+645 OP_FORLOOP: A 8,B -3
+646 OP_FORLOOP: A 4,B -22
+647 OP_NEWTABLE: A 8,B 0,C 1
+648 OP_SETTABLE: A 8,B 269,C 7
+649 OP_MOVE: A 3,Bx 8
+650 OP_LOADK: A 8,Bx 11
+651 OP_LEN: A 9,B 1
+652 OP_LOADK: A 10,Bx 11
+653 OP_FORPREP: A 8,B 4
+654 OP_FORLOOP: A 8,B -5
+655 OP_GETTABLE: A 12,B 1,C 11
+656 OP_ADD: A 13,B 7,C 11
+657 OP_SETTABLE: A 3,B 12,C 13
+658 OP_ADD: A 2,B 2,C 7
+659 OP_FORLOOP: A 8,B -5
+660 OP_GETTABLE: A 12,B 1,C 11
+661 OP_ADD: A 13,B 7,C 11
+662 OP_SETTABLE: A 3,B 12,C 13
+663 OP_ADD: A 2,B 2,C 7
+664 OP_FORLOOP: A 8,B -5
+665 OP_GETTABLE: A 12,B 1,C 11
+666 OP_ADD: A 13,B 7,C 11
+667 OP_SETTABLE: A 3,B 12,C 13
+668 OP_ADD: A 2,B 2,C 7
+669 OP_FORLOOP: A 8,B -5
+670 OP_GETTABLE: A 12,B 1,C 11
+671 OP_ADD: A 13,B 7,C 11
+672 OP_SETTABLE: A 3,B 12,C 13
+673 OP_ADD: A 2,B 2,C 7
+674 OP_FORLOOP: A 8,B -5
+675 OP_NEWTABLE: A 8,B 0,C 0
+676 OP_MOVE: A 3,Bx 8
+677 OP_LOADK: A 8,Bx 11
+678 OP_LEN: A 9,B 1
+679 OP_LOADK: A 10,Bx 11
+680 OP_FORPREP: A 8,B 2
+681 OP_FORLOOP: A 8,B -3
+682 OP_GETTABLE: A 12,B 1,C 11
+683 OP_SETTABLE: A 3,B 12,C 7
+684 OP_FORLOOP: A 8,B -3
+685 OP_GETTABLE: A 12,B 1,C 11
+686 OP_SETTABLE: A 3,B 12,C 7
+687 OP_FORLOOP: A 8,B -3
+688 OP_GETTABLE: A 12,B 1,C 11
+689 OP_SETTABLE: A 3,B 12,C 7
+690 OP_FORLOOP: A 8,B -3
+691 OP_GETTABLE: A 12,B 1,C 11
+692 OP_SETTABLE: A 3,B 12,C 7
+693 OP_FORLOOP: A 8,B -3
+694 OP_FORLOOP: A 4,B -22
+695 OP_NEWTABLE: A 8,B 0,C 1
+696 OP_SETTABLE: A 8,B 269,C 7
+697 OP_MOVE: A 3,Bx 8
+698 OP_LOADK: A 8,Bx 11
+699 OP_LEN: A 9,B 1
+700 OP_LOADK: A 10,Bx 11
+701 OP_FORPREP: A 8,B 4
+702 OP_FORLOOP: A 8,B -5
+703 OP_GETTABLE: A 12,B 1,C 11
+704 OP_ADD: A 13,B 7,C 11
+705 OP_SETTABLE: A 3,B 12,C 13
+706 OP_ADD: A 2,B 2,C 7
+707 OP_FORLOOP: A 8,B -5
+708 OP_GETTABLE: A 12,B 1,C 11
+709 OP_ADD: A 13,B 7,C 11
+710 OP_SETTABLE: A 3,B 12,C 13
+711 OP_ADD: A 2,B 2,C 7
+712 OP_FORLOOP: A 8,B -5
+713 OP_GETTABLE: A 12,B 1,C 11
+714 OP_ADD: A 13,B 7,C 11
+715 OP_SETTABLE: A 3,B 12,C 13
+716 OP_ADD: A 2,B 2,C 7
+717 OP_FORLOOP: A 8,B -5
+718 OP_GETTABLE: A 12,B 1,C 11
+719 OP_ADD: A 13,B 7,C 11
+720 OP_SETTABLE: A 3,B 12,C 13
+721 OP_ADD: A 2,B 2,C 7
+722 OP_FORLOOP: A 8,B -5
+723 OP_NEWTABLE: A 8,B 0,C 0
+724 OP_MOVE: A 3,Bx 8
+725 OP_LOADK: A 8,Bx 11
+726 OP_LEN: A 9,B 1
+727 OP_LOADK: A 10,Bx 11
+728 OP_FORPREP: A 8,B 2
+729 OP_FORLOOP: A 8,B -3
+730 OP_GETTABLE: A 12,B 1,C 11
+731 OP_SETTABLE: A 3,B 12,C 7
+732 OP_FORLOOP: A 8,B -3
+733 OP_GETTABLE: A 12,B 1,C 11
+734 OP_SETTABLE: A 3,B 12,C 7
+735 OP_FORLOOP: A 8,B -3
+736 OP_GETTABLE: A 12,B 1,C 11
+737 OP_SETTABLE: A 3,B 12,C 7
+738 OP_FORLOOP: A 8,B -3
+739 OP_GETTABLE: A 12,B 1,C 11
+740 OP_SETTABLE: A 3,B 12,C 7
+741 OP_FORLOOP: A 8,B -3
+742 OP_FORLOOP: A 4,B -22
+743 OP_NEWTABLE: A 8,B 0,C 1
+744 OP_SETTABLE: A 8,B 269,C 7
+745 OP_MOVE: A 3,Bx 8
+746 OP_LOADK: A 8,Bx 11
+747 OP_LEN: A 9,B 1
+748 OP_LOADK: A 10,Bx 11
+749 OP_FORPREP: A 8,B 4
+750 OP_FORLOOP: A 8,B -5
+751 OP_GETTABLE: A 12,B 1,C 11
+752 OP_ADD: A 13,B 7,C 11
+753 OP_SETTABLE: A 3,B 12,C 13
+754 OP_ADD: A 2,B 2,C 7
+755 OP_FORLOOP: A 8,B -5
+756 OP_GETTABLE: A 12,B 1,C 11
+757 OP_ADD: A 13,B 7,C 11
+758 OP_SETTABLE: A 3,B 12,C 13
+759 OP_ADD: A 2,B 2,C 7
+760 OP_FORLOOP: A 8,B -5
+761 OP_GETTABLE: A 12,B 1,C 11
+762 OP_ADD: A 13,B 7,C 11
+763 OP_SETTABLE: A 3,B 12,C 13
+764 OP_ADD: A 2,B 2,C 7
+765 OP_FORLOOP: A 8,B -5
+766 OP_GETTABLE: A 12,B 1,C 11
+767 OP_ADD: A 13,B 7,C 11
+768 OP_SETTABLE: A 3,B 12,C 13
+769 OP_ADD: A 2,B 2,C 7
+770 OP_FORLOOP: A 8,B -5
+771 OP_NEWTABLE: A 8,B 0,C 0
+772 OP_MOVE: A 3,Bx 8
+773 OP_LOADK: A 8,Bx 11
+774 OP_LEN: A 9,B 1
+775 OP_LOADK: A 10,Bx 11
+776 OP_FORPREP: A 8,B 2
+777 OP_FORLOOP: A 8,B -3
+778 OP_GETTABLE: A 12,B 1,C 11
+779 OP_SETTABLE: A 3,B 12,C 7
+780 OP_FORLOOP: A 8,B -3
+781 OP_GETTABLE: A 12,B 1,C 11
+782 OP_SETTABLE: A 3,B 12,C 7
+783 OP_FORLOOP: A 8,B -3
+784 OP_GETTABLE: A 12,B 1,C 11
+785 OP_SETTABLE: A 3,B 12,C 7
+786 OP_FORLOOP: A 8,B -3
+787 OP_GETTABLE: A 12,B 1,C 11
+788 OP_SETTABLE: A 3,B 12,C 7
+789 OP_FORLOOP: A 8,B -3
+790 OP_FORLOOP: A 4,B -22
+791 OP_NEWTABLE: A 8,B 0,C 1
+792 OP_SETTABLE: A 8,B 269,C 7
+793 OP_MOVE: A 3,Bx 8
+794 OP_LOADK: A 8,Bx 11
+795 OP_LEN: A 9,B 1
+796 OP_LOADK: A 10,Bx 11
+797 OP_FORPREP: A 8,B 4
+798 OP_FORLOOP: A 8,B -5
+799 OP_GETTABLE: A 12,B 1,C 11
+800 OP_ADD: A 13,B 7,C 11
+801 OP_SETTABLE: A 3,B 12,C 13
+802 OP_ADD: A 2,B 2,C 7
+803 OP_FORLOOP: A 8,B -5
+804 OP_GETTABLE: A 12,B 1,C 11
+805 OP_ADD: A 13,B 7,C 11
+806 OP_SETTABLE: A 3,B 12,C 13
+807 OP_ADD: A 2,B 2,C 7
+808 OP_FORLOOP: A 8,B -5
+809 OP_GETTABLE: A 12,B 1,C 11
+810 OP_ADD: A 13,B 7,C 11
+811 OP_SETTABLE: A 3,B 12,C 13
+812 OP_ADD: A 2,B 2,C 7
+813 OP_FORLOOP: A 8,B -5
+814 OP_GETTABLE: A 12,B 1,C 11
+815 OP_ADD: A 13,B 7,C 11
+816 OP_SETTABLE: A 3,B 12,C 13
+817 OP_ADD: A 2,B 2,C 7
+818 OP_FORLOOP: A 8,B -5
+819 OP_NEWTABLE: A 8,B 0,C 0
+820 OP_MOVE: A 3,Bx 8
+821 OP_LOADK: A 8,Bx 11
+822 OP_LEN: A 9,B 1
+823 OP_LOADK: A 10,Bx 11
+824 OP_FORPREP: A 8,B 2
+825 OP_FORLOOP: A 8,B -3
+826 OP_GETTABLE: A 12,B 1,C 11
+827 OP_SETTABLE: A 3,B 12,C 7
+828 OP_FORLOOP: A 8,B -3
+829 OP_GETTABLE: A 12,B 1,C 11
+830 OP_SETTABLE: A 3,B 12,C 7
+831 OP_FORLOOP: A 8,B -3
+832 OP_GETTABLE: A 12,B 1,C 11
+833 OP_SETTABLE: A 3,B 12,C 7
+834 OP_FORLOOP: A 8,B -3
+835 OP_GETTABLE: A 12,B 1,C 11
+836 OP_SETTABLE: A 3,B 12,C 7
+837 OP_FORLOOP: A 8,B -3
+838 OP_FORLOOP: A 4,B -22
+839 OP_NEWTABLE: A 8,B 0,C 1
+840 OP_SETTABLE: A 8,B 269,C 7
+841 OP_MOVE: A 3,Bx 8
+842 OP_LOADK: A 8,Bx 11
+843 OP_LEN: A 9,B 1
+844 OP_LOADK: A 10,Bx 11
+845 OP_FORPREP: A 8,B 4
+846 OP_FORLOOP: A 8,B -5
+847 OP_GETTABLE: A 12,B 1,C 11
+848 OP_ADD: A 13,B 7,C 11
+849 OP_SETTABLE: A 3,B 12,C 13
+850 OP_ADD: A 2,B 2,C 7
+851 OP_FORLOOP: A 8,B -5
+852 OP_GETTABLE: A 12,B 1,C 11
+853 OP_ADD: A 13,B 7,C 11
+854 OP_SETTABLE: A 3,B 12,C 13
+855 OP_ADD: A 2,B 2,C 7
+856 OP_FORLOOP: A 8,B -5
+857 OP_GETTABLE: A 12,B 1,C 11
+858 OP_ADD: A 13,B 7,C 11
+859 OP_SETTABLE: A 3,B 12,C 13
+860 OP_ADD: A 2,B 2,C 7
+861 OP_FORLOOP: A 8,B -5
+862 OP_GETTABLE: A 12,B 1,C 11
+863 OP_ADD: A 13,B 7,C 11
+864 OP_SETTABLE: A 3,B 12,C 13
+865 OP_ADD: A 2,B 2,C 7
+866 OP_FORLOOP: A 8,B -5
+867 OP_NEWTABLE: A 8,B 0,C 0
+868 OP_MOVE: A 3,Bx 8
+869 OP_LOADK: A 8,Bx 11
+870 OP_LEN: A 9,B 1
+871 OP_LOADK: A 10,Bx 11
+872 OP_FORPREP: A 8,B 2
+873 OP_FORLOOP: A 8,B -3
+874 OP_GETTABLE: A 12,B 1,C 11
+875 OP_SETTABLE: A 3,B 12,C 7
+876 OP_FORLOOP: A 8,B -3
+877 OP_GETTABLE: A 12,B 1,C 11
+878 OP_SETTABLE: A 3,B 12,C 7
+879 OP_FORLOOP: A 8,B -3
+880 OP_GETTABLE: A 12,B 1,C 11
+881 OP_SETTABLE: A 3,B 12,C 7
+882 OP_FORLOOP: A 8,B -3
+883 OP_GETTABLE: A 12,B 1,C 11
+884 OP_SETTABLE: A 3,B 12,C 7
+885 OP_FORLOOP: A 8,B -3
+886 OP_FORLOOP: A 4,B -22
+887 OP_NEWTABLE: A 8,B 0,C 1
+888 OP_SETTABLE: A 8,B 269,C 7
+889 OP_MOVE: A 3,Bx 8
+890 OP_LOADK: A 8,Bx 11
+891 OP_LEN: A 9,B 1
+892 OP_LOADK: A 10,Bx 11
+893 OP_FORPREP: A 8,B 4
+894 OP_FORLOOP: A 8,B -5
+895 OP_GETTABLE: A 12,B 1,C 11
+896 OP_ADD: A 13,B 7,C 11
+897 OP_SETTABLE: A 3,B 12,C 13
+898 OP_ADD: A 2,B 2,C 7
+899 OP_FORLOOP: A 8,B -5
+900 OP_GETTABLE: A 12,B 1,C 11
+901 OP_ADD: A 13,B 7,C 11
+902 OP_SETTABLE: A 3,B 12,C 13
+903 OP_ADD: A 2,B 2,C 7
+904 OP_FORLOOP: A 8,B -5
+905 OP_GETTABLE: A 12,B 1,C 11
+906 OP_ADD: A 13,B 7,C 11
+907 OP_SETTABLE: A 3,B 12,C 13
+908 OP_ADD: A 2,B 2,C 7
+909 OP_FORLOOP: A 8,B -5
+910 OP_GETTABLE: A 12,B 1,C 11
+911 OP_ADD: A 13,B 7,C 11
+912 OP_SETTABLE: A 3,B 12,C 13
+913 OP_ADD: A 2,B 2,C 7
+914 OP_FORLOOP: A 8,B -5
+915 OP_NEWTABLE: A 8,B 0,C 0
+916 OP_MOVE: A 3,Bx 8
+917 OP_LOADK: A 8,Bx 11
+918 OP_LEN: A 9,B 1
+919 OP_LOADK: A 10,Bx 11
+920 OP_FORPREP: A 8,B 2
+921 OP_FORLOOP: A 8,B -3
+922 OP_GETTABLE: A 12,B 1,C 11
+923 OP_SETTABLE: A 3,B 12,C 7
+924 OP_FORLOOP: A 8,B -3
+925 OP_GETTABLE: A 12,B 1,C 11
+926 OP_SETTABLE: A 3,B 12,C 7
+927 OP_FORLOOP: A 8,B -3
+928 OP_GETTABLE: A 12,B 1,C 11
+929 OP_SETTABLE: A 3,B 12,C 7
+930 OP_FORLOOP: A 8,B -3
+931 OP_GETTABLE: A 12,B 1,C 11
+932 OP_SETTABLE: A 3,B 12,C 7
+933 OP_FORLOOP: A 8,B -3
+934 OP_FORLOOP: A 4,B -22
+935 OP_NEWTABLE: A 8,B 0,C 1
+936 OP_SETTABLE: A 8,B 269,C 7
+937 OP_MOVE: A 3,Bx 8
+938 OP_LOADK: A 8,Bx 11
+939 OP_LEN: A 9,B 1
+940 OP_LOADK: A 10,Bx 11
+941 OP_FORPREP: A 8,B 4
+942 OP_FORLOOP: A 8,B -5
+943 OP_GETTABLE: A 12,B 1,C 11
+944 OP_ADD: A 13,B 7,C 11
+945 OP_SETTABLE: A 3,B 12,C 13
+946 OP_ADD: A 2,B 2,C 7
+947 OP_FORLOOP: A 8,B -5
+948 OP_GETTABLE: A 12,B 1,C 11
+949 OP_ADD: A 13,B 7,C 11
+950 OP_SETTABLE: A 3,B 12,C 13
+951 OP_ADD: A 2,B 2,C 7
+952 OP_FORLOOP: A 8,B -5
+953 OP_GETTABLE: A 12,B 1,C 11
+954 OP_ADD: A 13,B 7,C 11
+955 OP_SETTABLE: A 3,B 12,C 13
+956 OP_ADD: A 2,B 2,C 7
+957 OP_FORLOOP: A 8,B -5
+958 OP_GETTABLE: A 12,B 1,C 11
+959 OP_ADD: A 13,B 7,C 11
+960 OP_SETTABLE: A 3,B 12,C 13
+961 OP_ADD: A 2,B 2,C 7
+962 OP_FORLOOP: A 8,B -5
+963 OP_NEWTABLE: A 8,B 0,C 0
+964 OP_MOVE: A 3,Bx 8
+965 OP_LOADK: A 8,Bx 11
+966 OP_LEN: A 9,B 1
+967 OP_LOADK: A 10,Bx 11
+968 OP_FORPREP: A 8,B 2
+969 OP_FORLOOP: A 8,B -3
+970 OP_GETTABLE: A 12,B 1,C 11
+971 OP_SETTABLE: A 3,B 12,C 7
+972 OP_FORLOOP: A 8,B -3
+973 OP_GETTABLE: A 12,B 1,C 11
+974 OP_SETTABLE: A 3,B 12,C 7
+975 OP_FORLOOP: A 8,B -3
+976 OP_GETTABLE: A 12,B 1,C 11
+977 OP_SETTABLE: A 3,B 12,C 7
+978 OP_FORLOOP: A 8,B -3
+979 OP_GETTABLE: A 12,B 1,C 11
+980 OP_SETTABLE: A 3,B 12,C 7
+981 OP_FORLOOP: A 8,B -3
+982 OP_FORLOOP: A 4,B -22
+983 OP_NEWTABLE: A 8,B 0,C 1
+984 OP_SETTABLE: A 8,B 269,C 7
+985 OP_MOVE: A 3,Bx 8
+986 OP_LOADK: A 8,Bx 11
+987 OP_LEN: A 9,B 1
+988 OP_LOADK: A 10,Bx 11
+989 OP_FORPREP: A 8,B 4
+990 OP_FORLOOP: A 8,B -5
+991 OP_GETTABLE: A 12,B 1,C 11
+992 OP_ADD: A 13,B 7,C 11
+993 OP_SETTABLE: A 3,B 12,C 13
+994 OP_ADD: A 2,B 2,C 7
+995 OP_FORLOOP: A 8,B -5
+996 OP_GETTABLE: A 12,B 1,C 11
+997 OP_ADD: A 13,B 7,C 11
+998 OP_SETTABLE: A 3,B 12,C 13
+999 OP_ADD: A 2,B 2,C 7
+1000 OP_FORLOOP: A 8,B -5
+1001 OP_GETTABLE: A 12,B 1,C 11
+1002 OP_ADD: A 13,B 7,C 11
+1003 OP_SETTABLE: A 3,B 12,C 13
+1004 OP_ADD: A 2,B 2,C 7
+1005 OP_FORLOOP: A 8,B -5
+1006 OP_GETTABLE: A 12,B 1,C 11
+1007 OP_ADD: A 13,B 7,C 11
+1008 OP_SETTABLE: A 3,B 12,C 13
+1009 OP_ADD: A 2,B 2,C 7
+1010 OP_FORLOOP: A 8,B -5
+1011 OP_NEWTABLE: A 8,B 0,C 0
+1012 OP_MOVE: A 3,Bx 8
+1013 OP_LOADK: A 8,Bx 11
+1014 OP_LEN: A 9,B 1
+1015 OP_LOADK: A 10,Bx 11
+1016 OP_FORPREP: A 8,B 2
+1017 OP_FORLOOP: A 8,B -3
+1018 OP_GETTABLE: A 12,B 1,C 11
+1019 OP_SETTABLE: A 3,B 12,C 7
+1020 OP_FORLOOP: A 8,B -3
+1021 OP_GETTABLE: A 12,B 1,C 11
+1022 OP_SETTABLE: A 3,B 12,C 7
+1023 OP_FORLOOP: A 8,B -3
+1024 OP_GETTABLE: A 12,B 1,C 11
+1025 OP_SETTABLE: A 3,B 12,C 7
+1026 OP_FORLOOP: A 8,B -3
+1027 OP_GETTABLE: A 12,B 1,C 11
+1028 OP_SETTABLE: A 3,B 12,C 7
+1029 OP_FORLOOP: A 8,B -3
+1030 OP_FORLOOP: A 4,B -22
+1031 OP_NEWTABLE: A 8,B 0,C 1
+1032 OP_SETTABLE: A 8,B 269,C 7
+1033 OP_MOVE: A 3,Bx 8
+1034 OP_LOADK: A 8,Bx 11
+1035 OP_LEN: A 9,B 1
+1036 OP_LOADK: A 10,Bx 11
+1037 OP_FORPREP: A 8,B 4
+1038 OP_FORLOOP: A 8,B -5
+1039 OP_GETTABLE: A 12,B 1,C 11
+1040 OP_ADD: A 13,B 7,C 11
+1041 OP_SETTABLE: A 3,B 12,C 13
+1042 OP_ADD: A 2,B 2,C 7
+1043 OP_FORLOOP: A 8,B -5
+1044 OP_GETTABLE: A 12,B 1,C 11
+1045 OP_ADD: A 13,B 7,C 11
+1046 OP_SETTABLE: A 3,B 12,C 13
+1047 OP_ADD: A 2,B 2,C 7
+1048 OP_FORLOOP: A 8,B -5
+1049 OP_GETTABLE: A 12,B 1,C 11
+1050 OP_ADD: A 13,B 7,C 11
+1051 OP_SETTABLE: A 3,B 12,C 13
+1052 OP_ADD: A 2,B 2,C 7
+1053 OP_FORLOOP: A 8,B -5
+1054 OP_GETTABLE: A 12,B 1,C 11
+1055 OP_ADD: A 13,B 7,C 11
+1056 OP_SETTABLE: A 3,B 12,C 13
+1057 OP_ADD: A 2,B 2,C 7
+1058 OP_FORLOOP: A 8,B -5
+1059 OP_NEWTABLE: A 8,B 0,C 0
+1060 OP_MOVE: A 3,Bx 8
+1061 OP_LOADK: A 8,Bx 11
+1062 OP_LEN: A 9,B 1
+1063 OP_LOADK: A 10,Bx 11
+1064 OP_FORPREP: A 8,B 2
+1065 OP_FORLOOP: A 8,B -3
+1066 OP_GETTABLE: A 12,B 1,C 11
+1067 OP_SETTABLE: A 3,B 12,C 7
+1068 OP_FORLOOP: A 8,B -3
+1069 OP_GETTABLE: A 12,B 1,C 11
+1070 OP_SETTABLE: A 3,B 12,C 7
+1071 OP_FORLOOP: A 8,B -3
+1072 OP_GETTABLE: A 12,B 1,C 11
+1073 OP_SETTABLE: A 3,B 12,C 7
+1074 OP_FORLOOP: A 8,B -3
+1075 OP_GETTABLE: A 12,B 1,C 11
+1076 OP_SETTABLE: A 3,B 12,C 7
+1077 OP_FORLOOP: A 8,B -3
+1078 OP_FORLOOP: A 4,B -22
+1079 OP_NEWTABLE: A 8,B 0,C 1
+1080 OP_SETTABLE: A 8,B 269,C 7
+1081 OP_MOVE: A 3,Bx 8
+1082 OP_LOADK: A 8,Bx 11
+1083 OP_LEN: A 9,B 1
+1084 OP_LOADK: A 10,Bx 11
+1085 OP_FORPREP: A 8,B 4
+1086 OP_FORLOOP: A 8,B -5
+1087 OP_GETTABLE: A 12,B 1,C 11
+1088 OP_ADD: A 13,B 7,C 11
+1089 OP_SETTABLE: A 3,B 12,C 13
+1090 OP_ADD: A 2,B 2,C 7
+1091 OP_FORLOOP: A 8,B -5
+1092 OP_GETTABLE: A 12,B 1,C 11
+1093 OP_ADD: A 13,B 7,C 11
+1094 OP_SETTABLE: A 3,B 12,C 13
+1095 OP_ADD: A 2,B 2,C 7
+1096 OP_FORLOOP: A 8,B -5
+1097 OP_GETTABLE: A 12,B 1,C 11
+1098 OP_ADD: A 13,B 7,C 11
+1099 OP_SETTABLE: A 3,B 12,C 13
+1100 OP_ADD: A 2,B 2,C 7
+1101 OP_FORLOOP: A 8,B -5
+1102 OP_GETTABLE: A 12,B 1,C 11
+1103 OP_ADD: A 13,B 7,C 11
+1104 OP_SETTABLE: A 3,B 12,C 13
+1105 OP_ADD: A 2,B 2,C 7
+1106 OP_FORLOOP: A 8,B -5
+1107 OP_NEWTABLE: A 8,B 0,C 0
+1108 OP_MOVE: A 3,Bx 8
+1109 OP_LOADK: A 8,Bx 11
+1110 OP_LEN: A 9,B 1
+1111 OP_LOADK: A 10,Bx 11
+1112 OP_FORPREP: A 8,B 2
+1113 OP_FORLOOP: A 8,B -3
+1114 OP_GETTABLE: A 12,B 1,C 11
+1115 OP_SETTABLE: A 3,B 12,C 7
+1116 OP_FORLOOP: A 8,B -3
+1117 OP_GETTABLE: A 12,B 1,C 11
+1118 OP_SETTABLE: A 3,B 12,C 7
+1119 OP_FORLOOP: A 8,B -3
+1120 OP_GETTABLE: A 12,B 1,C 11
+1121 OP_SETTABLE: A 3,B 12,C 7
+1122 OP_FORLOOP: A 8,B -3
+1123 OP_GETTABLE: A 12,B 1,C 11
+1124 OP_SETTABLE: A 3,B 12,C 7
+1125 OP_FORLOOP: A 8,B -3
+1126 OP_FORLOOP: A 4,B -22
+1127 OP_NEWTABLE: A 8,B 0,C 1
+1128 OP_SETTABLE: A 8,B 269,C 7
+1129 OP_MOVE: A 3,Bx 8
+1130 OP_LOADK: A 8,Bx 11
+1131 OP_LEN: A 9,B 1
+1132 OP_LOADK: A 10,Bx 11
+1133 OP_FORPREP: A 8,B 4
+1134 OP_FORLOOP: A 8,B -5
+1135 OP_GETTABLE: A 12,B 1,C 11
+1136 OP_ADD: A 13,B 7,C 11
+1137 OP_SETTABLE: A 3,B 12,C 13
+1138 OP_ADD: A 2,B 2,C 7
+1139 OP_FORLOOP: A 8,B -5
+1140 OP_GETTABLE: A 12,B 1,C 11
+1141 OP_ADD: A 13,B 7,C 11
+1142 OP_SETTABLE: A 3,B 12,C 13
+1143 OP_ADD: A 2,B 2,C 7
+1144 OP_FORLOOP: A 8,B -5
+1145 OP_GETTABLE: A 12,B 1,C 11
+1146 OP_ADD: A 13,B 7,C 11
+1147 OP_SETTABLE: A 3,B 12,C 13
+1148 OP_ADD: A 2,B 2,C 7
+1149 OP_FORLOOP: A 8,B -5
+1150 OP_GETTABLE: A 12,B 1,C 11
+1151 OP_ADD: A 13,B 7,C 11
+1152 OP_SETTABLE: A 3,B 12,C 13
+1153 OP_ADD: A 2,B 2,C 7
+1154 OP_FORLOOP: A 8,B -5
+1155 OP_NEWTABLE: A 8,B 0,C 0
+1156 OP_MOVE: A 3,Bx 8
+1157 OP_LOADK: A 8,Bx 11
+1158 OP_LEN: A 9,B 1
+1159 OP_LOADK: A 10,Bx 11
+1160 OP_FORPREP: A 8,B 2
+1161 OP_FORLOOP: A 8,B -3
+1162 OP_GETTABLE: A 12,B 1,C 11
+1163 OP_SETTABLE: A 3,B 12,C 7
+1164 OP_FORLOOP: A 8,B -3
+1165 OP_GETTABLE: A 12,B 1,C 11
+1166 OP_SETTABLE: A 3,B 12,C 7
+1167 OP_FORLOOP: A 8,B -3
+1168 OP_GETTABLE: A 12,B 1,C 11
+1169 OP_SETTABLE: A 3,B 12,C 7
+1170 OP_FORLOOP: A 8,B -3
+1171 OP_GETTABLE: A 12,B 1,C 11
+1172 OP_SETTABLE: A 3,B 12,C 7
+1173 OP_FORLOOP: A 8,B -3
+1174 OP_FORLOOP: A 4,B -22
+1175 OP_NEWTABLE: A 8,B 0,C 1
+1176 OP_SETTABLE: A 8,B 269,C 7
+1177 OP_MOVE: A 3,Bx 8
+1178 OP_LOADK: A 8,Bx 11
+1179 OP_LEN: A 9,B 1
+1180 OP_LOADK: A 10,Bx 11
+1181 OP_FORPREP: A 8,B 4
+1182 OP_FORLOOP: A 8,B -5
+1183 OP_GETTABLE: A 12,B 1,C 11
+1184 OP_ADD: A 13,B 7,C 11
+1185 OP_SETTABLE: A 3,B 12,C 13
+1186 OP_ADD: A 2,B 2,C 7
+1187 OP_FORLOOP: A 8,B -5
+1188 OP_GETTABLE: A 12,B 1,C 11
+1189 OP_ADD: A 13,B 7,C 11
+1190 OP_SETTABLE: A 3,B 12,C 13
+1191 OP_ADD: A 2,B 2,C 7
+1192 OP_FORLOOP: A 8,B -5
+1193 OP_GETTABLE: A 12,B 1,C 11
+1194 OP_ADD: A 13,B 7,C 11
+1195 OP_SETTABLE: A 3,B 12,C 13
+1196 OP_ADD: A 2,B 2,C 7
+1197 OP_FORLOOP: A 8,B -5
+1198 OP_GETTABLE: A 12,B 1,C 11
+1199 OP_ADD: A 13,B 7,C 11
+1200 OP_SETTABLE: A 3,B 12,C 13
+1201 OP_ADD: A 2,B 2,C 7
+1202 OP_FORLOOP: A 8,B -5
+1203 OP_NEWTABLE: A 8,B 0,C 0
+1204 OP_MOVE: A 3,Bx 8
+1205 OP_LOADK: A 8,Bx 11
+1206 OP_LEN: A 9,B 1
+1207 OP_LOADK: A 10,Bx 11
+1208 OP_FORPREP: A 8,B 2
+1209 OP_FORLOOP: A 8,B -3
+1210 OP_GETTABLE: A 12,B 1,C 11
+1211 OP_SETTABLE: A 3,B 12,C 7
+1212 OP_FORLOOP: A 8,B -3
+1213 OP_GETTABLE: A 12,B 1,C 11
+1214 OP_SETTABLE: A 3,B 12,C 7
+1215 OP_FORLOOP: A 8,B -3
+1216 OP_GETTABLE: A 12,B 1,C 11
+1217 OP_SETTABLE: A 3,B 12,C 7
+1218 OP_FORLOOP: A 8,B -3
+1219 OP_GETTABLE: A 12,B 1,C 11
+1220 OP_SETTABLE: A 3,B 12,C 7
+1221 OP_FORLOOP: A 8,B -3
+1222 OP_FORLOOP: A 4,B -22
+1223 OP_NEWTABLE: A 8,B 0,C 1
+1224 OP_SETTABLE: A 8,B 269,C 7
+1225 OP_MOVE: A 3,Bx 8
+1226 OP_LOADK: A 8,Bx 11
+1227 OP_LEN: A 9,B 1
+1228 OP_LOADK: A 10,Bx 11
+1229 OP_FORPREP: A 8,B 4
+1230 OP_FORLOOP: A 8,B -5
+1231 OP_GETTABLE: A 12,B 1,C 11
+1232 OP_ADD: A 13,B 7,C 11
+1233 OP_SETTABLE: A 3,B 12,C 13
+1234 OP_ADD: A 2,B 2,C 7
+1235 OP_FORLOOP: A 8,B -5
+1236 OP_GETTABLE: A 12,B 1,C 11
+1237 OP_ADD: A 13,B 7,C 11
+1238 OP_SETTABLE: A 3,B 12,C 13
+1239 OP_ADD: A 2,B 2,C 7
+1240 OP_FORLOOP: A 8,B -5
+1241 OP_GETTABLE: A 12,B 1,C 11
+1242 OP_ADD: A 13,B 7,C 11
+1243 OP_SETTABLE: A 3,B 12,C 13
+1244 OP_ADD: A 2,B 2,C 7
+1245 OP_FORLOOP: A 8,B -5
+1246 OP_GETTABLE: A 12,B 1,C 11
+1247 OP_ADD: A 13,B 7,C 11
+1248 OP_SETTABLE: A 3,B 12,C 13
+1249 OP_ADD: A 2,B 2,C 7
+1250 OP_FORLOOP: A 8,B -5
+1251 OP_NEWTABLE: A 8,B 0,C 0
+1252 OP_MOVE: A 3,Bx 8
+1253 OP_LOADK: A 8,Bx 11
+1254 OP_LEN: A 9,B 1
+1255 OP_LOADK: A 10,Bx 11
+1256 OP_FORPREP: A 8,B 2
+1257 OP_FORLOOP: A 8,B -3
+1258 OP_GETTABLE: A 12,B 1,C 11
+1259 OP_SETTABLE: A 3,B 12,C 7
+1260 OP_FORLOOP: A 8,B -3
+1261 OP_GETTABLE: A 12,B 1,C 11
+1262 OP_SETTABLE: A 3,B 12,C 7
+1263 OP_FORLOOP: A 8,B -3
+1264 OP_GETTABLE: A 12,B 1,C 11
+1265 OP_SETTABLE: A 3,B 12,C 7
+1266 OP_FORLOOP: A 8,B -3
+1267 OP_GETTABLE: A 12,B 1,C 11
+1268 OP_SETTABLE: A 3,B 12,C 7
+1269 OP_FORLOOP: A 8,B -3
+1270 OP_FORLOOP: A 4,B -22
+1271 OP_NEWTABLE: A 8,B 0,C 1
+1272 OP_SETTABLE: A 8,B 269,C 7
+1273 OP_MOVE: A 3,Bx 8
+1274 OP_LOADK: A 8,Bx 11
+1275 OP_LEN: A 9,B 1
+1276 OP_LOADK: A 10,Bx 11
+1277 OP_FORPREP: A 8,B 4
+1278 OP_FORLOOP: A 8,B -5
+1279 OP_GETTABLE: A 12,B 1,C 11
+1280 OP_ADD: A 13,B 7,C 11
+1281 OP_SETTABLE: A 3,B 12,C 13
+1282 OP_ADD: A 2,B 2,C 7
+1283 OP_FORLOOP: A 8,B -5
+1284 OP_GETTABLE: A 12,B 1,C 11
+1285 OP_ADD: A 13,B 7,C 11
+1286 OP_SETTABLE: A 3,B 12,C 13
+1287 OP_ADD: A 2,B 2,C 7
+1288 OP_FORLOOP: A 8,B -5
+1289 OP_GETTABLE: A 12,B 1,C 11
+1290 OP_ADD: A 13,B 7,C 11
+1291 OP_SETTABLE: A 3,B 12,C 13
+1292 OP_ADD: A 2,B 2,C 7
+1293 OP_FORLOOP: A 8,B -5
+1294 OP_GETTABLE: A 12,B 1,C 11
+1295 OP_ADD: A 13,B 7,C 11
+1296 OP_SETTABLE: A 3,B 12,C 13
+1297 OP_ADD: A 2,B 2,C 7
+1298 OP_FORLOOP: A 8,B -5
+1299 OP_NEWTABLE: A 8,B 0,C 0
+1300 OP_MOVE: A 3,Bx 8
+1301 OP_LOADK: A 8,Bx 11
+1302 OP_LEN: A 9,B 1
+1303 OP_LOADK: A 10,Bx 11
+1304 OP_FORPREP: A 8,B 2
+1305 OP_FORLOOP: A 8,B -3
+1306 OP_GETTABLE: A 12,B 1,C 11
+1307 OP_SETTABLE: A 3,B 12,C 7
+1308 OP_FORLOOP: A 8,B -3
+1309 OP_GETTABLE: A 12,B 1,C 11
+1310 OP_SETTABLE: A 3,B 12,C 7
+1311 OP_FORLOOP: A 8,B -3
+1312 OP_GETTABLE: A 12,B 1,C 11
+1313 OP_SETTABLE: A 3,B 12,C 7
+1314 OP_FORLOOP: A 8,B -3
+1315 OP_GETTABLE: A 12,B 1,C 11
+1316 OP_SETTABLE: A 3,B 12,C 7
+1317 OP_FORLOOP: A 8,B -3
+1318 OP_FORLOOP: A 4,B -22
+1319 OP_NEWTABLE: A 8,B 0,C 1
+1320 OP_SETTABLE: A 8,B 269,C 7
+1321 OP_MOVE: A 3,Bx 8
+1322 OP_LOADK: A 8,Bx 11
+1323 OP_LEN: A 9,B 1
+1324 OP_LOADK: A 10,Bx 11
+1325 OP_FORPREP: A 8,B 4
+1326 OP_FORLOOP: A 8,B -5
+1327 OP_GETTABLE: A 12,B 1,C 11
+1328 OP_ADD: A 13,B 7,C 11
+1329 OP_SETTABLE: A 3,B 12,C 13
+1330 OP_ADD: A 2,B 2,C 7
+1331 OP_FORLOOP: A 8,B -5
+1332 OP_GETTABLE: A 12,B 1,C 11
+1333 OP_ADD: A 13,B 7,C 11
+1334 OP_SETTABLE: A 3,B 12,C 13
+1335 OP_ADD: A 2,B 2,C 7
+1336 OP_FORLOOP: A 8,B -5
+1337 OP_GETTABLE: A 12,B 1,C 11
+1338 OP_ADD: A 13,B 7,C 11
+1339 OP_SETTABLE: A 3,B 12,C 13
+1340 OP_ADD: A 2,B 2,C 7
+1341 OP_FORLOOP: A 8,B -5
+1342 OP_GETTABLE: A 12,B 1,C 11
+1343 OP_ADD: A 13,B 7,C 11
+1344 OP_SETTABLE: A 3,B 12,C 13
+1345 OP_ADD: A 2,B 2,C 7
+1346 OP_FORLOOP: A 8,B -5
+1347 OP_NEWTABLE: A 8,B 0,C 0
+1348 OP_MOVE: A 3,Bx 8
+1349 OP_LOADK: A 8,Bx 11
+1350 OP_LEN: A 9,B 1
+1351 OP_LOADK: A 10,Bx 11
+1352 OP_FORPREP: A 8,B 2
+1353 OP_FORLOOP: A 8,B -3
+1354 OP_GETTABLE: A 12,B 1,C 11
+1355 OP_SETTABLE: A 3,B 12,C 7
+1356 OP_FORLOOP: A 8,B -3
+1357 OP_GETTABLE: A 12,B 1,C 11
+1358 OP_SETTABLE: A 3,B 12,C 7
+1359 OP_FORLOOP: A 8,B -3
+1360 OP_GETTABLE: A 12,B 1,C 11
+1361 OP_SETTABLE: A 3,B 12,C 7
+1362 OP_FORLOOP: A 8,B -3
+1363 OP_GETTABLE: A 12,B 1,C 11
+1364 OP_SETTABLE: A 3,B 12,C 7
+1365 OP_FORLOOP: A 8,B -3
+1366 OP_FORLOOP: A 4,B -22
+1367 OP_NEWTABLE: A 8,B 0,C 1
+1368 OP_SETTABLE: A 8,B 269,C 7
+1369 OP_MOVE: A 3,Bx 8
+1370 OP_LOADK: A 8,Bx 11
+1371 OP_LEN: A 9,B 1
+1372 OP_LOADK: A 10,Bx 11
+1373 OP_FORPREP: A 8,B 4
+1374 OP_FORLOOP: A 8,B -5
+1375 OP_GETTABLE: A 12,B 1,C 11
+1376 OP_ADD: A 13,B 7,C 11
+1377 OP_SETTABLE: A 3,B 12,C 13
+1378 OP_ADD: A 2,B 2,C 7
+1379 OP_FORLOOP: A 8,B -5
+1380 OP_GETTABLE: A 12,B 1,C 11
+1381 OP_ADD: A 13,B 7,C 11
+1382 OP_SETTABLE: A 3,B 12,C 13
+1383 OP_ADD: A 2,B 2,C 7
+1384 OP_FORLOOP: A 8,B -5
+1385 OP_GETTABLE: A 12,B 1,C 11
+1386 OP_ADD: A 13,B 7,C 11
+1387 OP_SETTABLE: A 3,B 12,C 13
+1388 OP_ADD: A 2,B 2,C 7
+1389 OP_FORLOOP: A 8,B -5
+1390 OP_GETTABLE: A 12,B 1,C 11
+1391 OP_ADD: A 13,B 7,C 11
+1392 OP_SETTABLE: A 3,B 12,C 13
+1393 OP_ADD: A 2,B 2,C 7
+1394 OP_FORLOOP: A 8,B -5
+1395 OP_NEWTABLE: A 8,B 0,C 0
+1396 OP_MOVE: A 3,Bx 8
+1397 OP_LOADK: A 8,Bx 11
+1398 OP_LEN: A 9,B 1
+1399 OP_LOADK: A 10,Bx 11
+1400 OP_FORPREP: A 8,B 2
+1401 OP_FORLOOP: A 8,B -3
+1402 OP_GETTABLE: A 12,B 1,C 11
+1403 OP_SETTABLE: A 3,B 12,C 7
+1404 OP_FORLOOP: A 8,B -3
+1405 OP_GETTABLE: A 12,B 1,C 11
+1406 OP_SETTABLE: A 3,B 12,C 7
+1407 OP_FORLOOP: A 8,B -3
+1408 OP_GETTABLE: A 12,B 1,C 11
+1409 OP_SETTABLE: A 3,B 12,C 7
+1410 OP_FORLOOP: A 8,B -3
+1411 OP_GETTABLE: A 12,B 1,C 11
+1412 OP_SETTABLE: A 3,B 12,C 7
+1413 OP_FORLOOP: A 8,B -3
+1414 OP_FORLOOP: A 4,B -22
+1415 OP_NEWTABLE: A 8,B 0,C 1
+1416 OP_SETTABLE: A 8,B 269,C 7
+1417 OP_MOVE: A 3,Bx 8
+1418 OP_LOADK: A 8,Bx 11
+1419 OP_LEN: A 9,B 1
+1420 OP_LOADK: A 10,Bx 11
+1421 OP_FORPREP: A 8,B 4
+1422 OP_FORLOOP: A 8,B -5
+1423 OP_GETTABLE: A 12,B 1,C 11
+1424 OP_ADD: A 13,B 7,C 11
+1425 OP_SETTABLE: A 3,B 12,C 13
+1426 OP_ADD: A 2,B 2,C 7
+1427 OP_FORLOOP: A 8,B -5
+1428 OP_GETTABLE: A 12,B 1,C 11
+1429 OP_ADD: A 13,B 7,C 11
+1430 OP_SETTABLE: A 3,B 12,C 13
+1431 OP_ADD: A 2,B 2,C 7
+1432 OP_FORLOOP: A 8,B -5
+1433 OP_GETTABLE: A 12,B 1,C 11
+1434 OP_ADD: A 13,B 7,C 11
+1435 OP_SETTABLE: A 3,B 12,C 13
+1436 OP_ADD: A 2,B 2,C 7
+1437 OP_FORLOOP: A 8,B -5
+1438 OP_GETTABLE: A 12,B 1,C 11
+1439 OP_ADD: A 13,B 7,C 11
+1440 OP_SETTABLE: A 3,B 12,C 13
+1441 OP_ADD: A 2,B 2,C 7
+1442 OP_FORLOOP: A 8,B -5
+1443 OP_NEWTABLE: A 8,B 0,C 0
+1444 OP_MOVE: A 3,Bx 8
+1445 OP_LOADK: A 8,Bx 11
+1446 OP_LEN: A 9,B 1
+1447 OP_LOADK: A 10,Bx 11
+1448 OP_FORPREP: A 8,B 2
+1449 OP_FORLOOP: A 8,B -3
+1450 OP_GETTABLE: A 12,B 1,C 11
+1451 OP_SETTABLE: A 3,B 12,C 7
+1452 OP_FORLOOP: A 8,B -3
+1453 OP_GETTABLE: A 12,B 1,C 11
+1454 OP_SETTABLE: A 3,B 12,C 7
+1455 OP_FORLOOP: A 8,B -3
+1456 OP_GETTABLE: A 12,B 1,C 11
+1457 OP_SETTABLE: A 3,B 12,C 7
+1458 OP_FORLOOP: A 8,B -3
+1459 OP_GETTABLE: A 12,B 1,C 11
+1460 OP_SETTABLE: A 3,B 12,C 7
+1461 OP_FORLOOP: A 8,B -3
+1462 OP_FORLOOP: A 4,B -22
+1463 OP_NEWTABLE: A 8,B 0,C 1
+1464 OP_SETTABLE: A 8,B 269,C 7
+1465 OP_MOVE: A 3,Bx 8
+1466 OP_LOADK: A 8,Bx 11
+1467 OP_LEN: A 9,B 1
+1468 OP_LOADK: A 10,Bx 11
+1469 OP_FORPREP: A 8,B 4
+1470 OP_FORLOOP: A 8,B -5
+1471 OP_GETTABLE: A 12,B 1,C 11
+1472 OP_ADD: A 13,B 7,C 11
+1473 OP_SETTABLE: A 3,B 12,C 13
+1474 OP_ADD: A 2,B 2,C 7
+1475 OP_FORLOOP: A 8,B -5
+1476 OP_GETTABLE: A 12,B 1,C 11
+1477 OP_ADD: A 13,B 7,C 11
+1478 OP_SETTABLE: A 3,B 12,C 13
+1479 OP_ADD: A 2,B 2,C 7
+1480 OP_FORLOOP: A 8,B -5
+1481 OP_GETTABLE: A 12,B 1,C 11
+1482 OP_ADD: A 13,B 7,C 11
+1483 OP_SETTABLE: A 3,B 12,C 13
+1484 OP_ADD: A 2,B 2,C 7
+1485 OP_FORLOOP: A 8,B -5
+1486 OP_GETTABLE: A 12,B 1,C 11
+1487 OP_ADD: A 13,B 7,C 11
+1488 OP_SETTABLE: A 3,B 12,C 13
+1489 OP_ADD: A 2,B 2,C 7
+1490 OP_FORLOOP: A 8,B -5
+1491 OP_NEWTABLE: A 8,B 0,C 0
+1492 OP_MOVE: A 3,Bx 8
+1493 OP_LOADK: A 8,Bx 11
+1494 OP_LEN: A 9,B 1
+1495 OP_LOADK: A 10,Bx 11
+1496 OP_FORPREP: A 8,B 2
+1497 OP_FORLOOP: A 8,B -3
+1498 OP_GETTABLE: A 12,B 1,C 11
+1499 OP_SETTABLE: A 3,B 12,C 7
+1500 OP_FORLOOP: A 8,B -3
+1501 OP_GETTABLE: A 12,B 1,C 11
+1502 OP_SETTABLE: A 3,B 12,C 7
+1503 OP_FORLOOP: A 8,B -3
+1504 OP_GETTABLE: A 12,B 1,C 11
+1505 OP_SETTABLE: A 3,B 12,C 7
+1506 OP_FORLOOP: A 8,B -3
+1507 OP_GETTABLE: A 12,B 1,C 11
+1508 OP_SETTABLE: A 3,B 12,C 7
+1509 OP_FORLOOP: A 8,B -3
+1510 OP_FORLOOP: A 4,B -22
+1511 OP_NEWTABLE: A 8,B 0,C 1
+1512 OP_SETTABLE: A 8,B 269,C 7
+1513 OP_MOVE: A 3,Bx 8
+1514 OP_LOADK: A 8,Bx 11
+1515 OP_LEN: A 9,B 1
+1516 OP_LOADK: A 10,Bx 11
+1517 OP_FORPREP: A 8,B 4
+1518 OP_FORLOOP: A 8,B -5
+1519 OP_GETTABLE: A 12,B 1,C 11
+1520 OP_ADD: A 13,B 7,C 11
+1521 OP_SETTABLE: A 3,B 12,C 13
+1522 OP_ADD: A 2,B 2,C 7
+1523 OP_FORLOOP: A 8,B -5
+1524 OP_GETTABLE: A 12,B 1,C 11
+1525 OP_ADD: A 13,B 7,C 11
+1526 OP_SETTABLE: A 3,B 12,C 13
+1527 OP_ADD: A 2,B 2,C 7
+1528 OP_FORLOOP: A 8,B -5
+1529 OP_GETTABLE: A 12,B 1,C 11
+1530 OP_ADD: A 13,B 7,C 11
+1531 OP_SETTABLE: A 3,B 12,C 13
+1532 OP_ADD: A 2,B 2,C 7
+1533 OP_FORLOOP: A 8,B -5
+1534 OP_GETTABLE: A 12,B 1,C 11
+1535 OP_ADD: A 13,B 7,C 11
+1536 OP_SETTABLE: A 3,B 12,C 13
+1537 OP_ADD: A 2,B 2,C 7
+1538 OP_FORLOOP: A 8,B -5
+1539 OP_NEWTABLE: A 8,B 0,C 0
+1540 OP_MOVE: A 3,Bx 8
+1541 OP_LOADK: A 8,Bx 11
+1542 OP_LEN: A 9,B 1
+1543 OP_LOADK: A 10,Bx 11
+1544 OP_FORPREP: A 8,B 2
+1545 OP_FORLOOP: A 8,B -3
+1546 OP_GETTABLE: A 12,B 1,C 11
+1547 OP_SETTABLE: A 3,B 12,C 7
+1548 OP_FORLOOP: A 8,B -3
+1549 OP_GETTABLE: A 12,B 1,C 11
+1550 OP_SETTABLE: A 3,B 12,C 7
+1551 OP_FORLOOP: A 8,B -3
+1552 OP_GETTABLE: A 12,B 1,C 11
+1553 OP_SETTABLE: A 3,B 12,C 7
+1554 OP_FORLOOP: A 8,B -3
+1555 OP_GETTABLE: A 12,B 1,C 11
+1556 OP_SETTABLE: A 3,B 12,C 7
+1557 OP_FORLOOP: A 8,B -3
+1558 OP_FORLOOP: A 4,B -22
+1559 OP_NEWTABLE: A 8,B 0,C 1
+1560 OP_SETTABLE: A 8,B 269,C 7
+1561 OP_MOVE: A 3,Bx 8
+1562 OP_LOADK: A 8,Bx 11
+1563 OP_LEN: A 9,B 1
+1564 OP_LOADK: A 10,Bx 11
+1565 OP_FORPREP: A 8,B 4
+1566 OP_FORLOOP: A 8,B -5
+1567 OP_GETTABLE: A 12,B 1,C 11
+1568 OP_ADD: A 13,B 7,C 11
+1569 OP_SETTABLE: A 3,B 12,C 13
+1570 OP_ADD: A 2,B 2,C 7
+1571 OP_FORLOOP: A 8,B -5
+1572 OP_GETTABLE: A 12,B 1,C 11
+1573 OP_ADD: A 13,B 7,C 11
+1574 OP_SETTABLE: A 3,B 12,C 13
+1575 OP_ADD: A 2,B 2,C 7
+1576 OP_FORLOOP: A 8,B -5
+1577 OP_GETTABLE: A 12,B 1,C 11
+1578 OP_ADD: A 13,B 7,C 11
+1579 OP_SETTABLE: A 3,B 12,C 13
+1580 OP_ADD: A 2,B 2,C 7
+1581 OP_FORLOOP: A 8,B -5
+1582 OP_GETTABLE: A 12,B 1,C 11
+1583 OP_ADD: A 13,B 7,C 11
+1584 OP_SETTABLE: A 3,B 12,C 13
+1585 OP_ADD: A 2,B 2,C 7
+1586 OP_FORLOOP: A 8,B -5
+1587 OP_NEWTABLE: A 8,B 0,C 0
+1588 OP_MOVE: A 3,Bx 8
+1589 OP_LOADK: A 8,Bx 11
+1590 OP_LEN: A 9,B 1
+1591 OP_LOADK: A 10,Bx 11
+1592 OP_FORPREP: A 8,B 2
+1593 OP_FORLOOP: A 8,B -3
+1594 OP_GETTABLE: A 12,B 1,C 11
+1595 OP_SETTABLE: A 3,B 12,C 7
+1596 OP_FORLOOP: A 8,B -3
+1597 OP_GETTABLE: A 12,B 1,C 11
+1598 OP_SETTABLE: A 3,B 12,C 7
+1599 OP_FORLOOP: A 8,B -3
+1600 OP_GETTABLE: A 12,B 1,C 11
+1601 OP_SETTABLE: A 3,B 12,C 7
+1602 OP_FORLOOP: A 8,B -3
+1603 OP_GETTABLE: A 12,B 1,C 11
+1604 OP_SETTABLE: A 3,B 12,C 7
+1605 OP_FORLOOP: A 8,B -3
+1606 OP_FORLOOP: A 4,B -22
+1607 OP_NEWTABLE: A 8,B 0,C 1
+1608 OP_SETTABLE: A 8,B 269,C 7
+1609 OP_MOVE: A 3,Bx 8
+1610 OP_LOADK: A 8,Bx 11
+1611 OP_LEN: A 9,B 1
+1612 OP_LOADK: A 10,Bx 11
+1613 OP_FORPREP: A 8,B 4
+1614 OP_FORLOOP: A 8,B -5
+1615 OP_GETTABLE: A 12,B 1,C 11
+1616 OP_ADD: A 13,B 7,C 11
+1617 OP_SETTABLE: A 3,B 12,C 13
+1618 OP_ADD: A 2,B 2,C 7
+1619 OP_FORLOOP: A 8,B -5
+1620 OP_GETTABLE: A 12,B 1,C 11
+1621 OP_ADD: A 13,B 7,C 11
+1622 OP_SETTABLE: A 3,B 12,C 13
+1623 OP_ADD: A 2,B 2,C 7
+1624 OP_FORLOOP: A 8,B -5
+1625 OP_GETTABLE: A 12,B 1,C 11
+1626 OP_ADD: A 13,B 7,C 11
+1627 OP_SETTABLE: A 3,B 12,C 13
+1628 OP_ADD: A 2,B 2,C 7
+1629 OP_FORLOOP: A 8,B -5
+1630 OP_GETTABLE: A 12,B 1,C 11
+1631 OP_ADD: A 13,B 7,C 11
+1632 OP_SETTABLE: A 3,B 12,C 13
+1633 OP_ADD: A 2,B 2,C 7
+1634 OP_FORLOOP: A 8,B -5
+1635 OP_NEWTABLE: A 8,B 0,C 0
+1636 OP_MOVE: A 3,Bx 8
+1637 OP_LOADK: A 8,Bx 11
+1638 OP_LEN: A 9,B 1
+1639 OP_LOADK: A 10,Bx 11
+1640 OP_FORPREP: A 8,B 2
+1641 OP_FORLOOP: A 8,B -3
+1642 OP_GETTABLE: A 12,B 1,C 11
+1643 OP_SETTABLE: A 3,B 12,C 7
+1644 OP_FORLOOP: A 8,B -3
+1645 OP_GETTABLE: A 12,B 1,C 11
+1646 OP_SETTABLE: A 3,B 12,C 7
+1647 OP_FORLOOP: A 8,B -3
+1648 OP_GETTABLE: A 12,B 1,C 11
+1649 OP_SETTABLE: A 3,B 12,C 7
+1650 OP_FORLOOP: A 8,B -3
+1651 OP_GETTABLE: A 12,B 1,C 11
+1652 OP_SETTABLE: A 3,B 12,C 7
+1653 OP_FORLOOP: A 8,B -3
+1654 OP_FORLOOP: A 4,B -22
+1655 OP_NEWTABLE: A 8,B 0,C 1
+1656 OP_SETTABLE: A 8,B 269,C 7
+1657 OP_MOVE: A 3,Bx 8
+1658 OP_LOADK: A 8,Bx 11
+1659 OP_LEN: A 9,B 1
+1660 OP_LOADK: A 10,Bx 11
+1661 OP_FORPREP: A 8,B 4
+1662 OP_FORLOOP: A 8,B -5
+1663 OP_GETTABLE: A 12,B 1,C 11
+1664 OP_ADD: A 13,B 7,C 11
+1665 OP_SETTABLE: A 3,B 12,C 13
+1666 OP_ADD: A 2,B 2,C 7
+1667 OP_FORLOOP: A 8,B -5
+1668 OP_GETTABLE: A 12,B 1,C 11
+1669 OP_ADD: A 13,B 7,C 11
+1670 OP_SETTABLE: A 3,B 12,C 13
+1671 OP_ADD: A 2,B 2,C 7
+1672 OP_FORLOOP: A 8,B -5
+1673 OP_GETTABLE: A 12,B 1,C 11
+1674 OP_ADD: A 13,B 7,C 11
+1675 OP_SETTABLE: A 3,B 12,C 13
+1676 OP_ADD: A 2,B 2,C 7
+1677 OP_FORLOOP: A 8,B -5
+1678 OP_GETTABLE: A 12,B 1,C 11
+1679 OP_ADD: A 13,B 7,C 11
+1680 OP_SETTABLE: A 3,B 12,C 13
+1681 OP_ADD: A 2,B 2,C 7
+1682 OP_FORLOOP: A 8,B -5
+1683 OP_NEWTABLE: A 8,B 0,C 0
+1684 OP_MOVE: A 3,Bx 8
+1685 OP_LOADK: A 8,Bx 11
+1686 OP_LEN: A 9,B 1
+1687 OP_LOADK: A 10,Bx 11
+1688 OP_FORPREP: A 8,B 2
+1689 OP_FORLOOP: A 8,B -3
+1690 OP_GETTABLE: A 12,B 1,C 11
+1691 OP_SETTABLE: A 3,B 12,C 7
+1692 OP_FORLOOP: A 8,B -3
+1693 OP_GETTABLE: A 12,B 1,C 11
+1694 OP_SETTABLE: A 3,B 12,C 7
+1695 OP_FORLOOP: A 8,B -3
+1696 OP_GETTABLE: A 12,B 1,C 11
+1697 OP_SETTABLE: A 3,B 12,C 7
+1698 OP_FORLOOP: A 8,B -3
+1699 OP_GETTABLE: A 12,B 1,C 11
+1700 OP_SETTABLE: A 3,B 12,C 7
+1701 OP_FORLOOP: A 8,B -3
+1702 OP_FORLOOP: A 4,B -22
+1703 OP_NEWTABLE: A 8,B 0,C 1
+1704 OP_SETTABLE: A 8,B 269,C 7
+1705 OP_MOVE: A 3,Bx 8
+1706 OP_LOADK: A 8,Bx 11
+1707 OP_LEN: A 9,B 1
+1708 OP_LOADK: A 10,Bx 11
+1709 OP_FORPREP: A 8,B 4
+1710 OP_FORLOOP: A 8,B -5
+1711 OP_GETTABLE: A 12,B 1,C 11
+1712 OP_ADD: A 13,B 7,C 11
+1713 OP_SETTABLE: A 3,B 12,C 13
+1714 OP_ADD: A 2,B 2,C 7
+1715 OP_FORLOOP: A 8,B -5
+1716 OP_GETTABLE: A 12,B 1,C 11
+1717 OP_ADD: A 13,B 7,C 11
+1718 OP_SETTABLE: A 3,B 12,C 13
+1719 OP_ADD: A 2,B 2,C 7
+1720 OP_FORLOOP: A 8,B -5
+1721 OP_GETTABLE: A 12,B 1,C 11
+1722 OP_ADD: A 13,B 7,C 11
+1723 OP_SETTABLE: A 3,B 12,C 13
+1724 OP_ADD: A 2,B 2,C 7
+1725 OP_FORLOOP: A 8,B -5
+1726 OP_GETTABLE: A 12,B 1,C 11
+1727 OP_ADD: A 13,B 7,C 11
+1728 OP_SETTABLE: A 3,B 12,C 13
+1729 OP_ADD: A 2,B 2,C 7
+1730 OP_FORLOOP: A 8,B -5
+1731 OP_NEWTABLE: A 8,B 0,C 0
+1732 OP_MOVE: A 3,Bx 8
+1733 OP_LOADK: A 8,Bx 11
+1734 OP_LEN: A 9,B 1
+1735 OP_LOADK: A 10,Bx 11
+1736 OP_FORPREP: A 8,B 2
+1737 OP_FORLOOP: A 8,B -3
+1738 OP_GETTABLE: A 12,B 1,C 11
+1739 OP_SETTABLE: A 3,B 12,C 7
+1740 OP_FORLOOP: A 8,B -3
+1741 OP_GETTABLE: A 12,B 1,C 11
+1742 OP_SETTABLE: A 3,B 12,C 7
+1743 OP_FORLOOP: A 8,B -3
+1744 OP_GETTABLE: A 12,B 1,C 11
+1745 OP_SETTABLE: A 3,B 12,C 7
+1746 OP_FORLOOP: A 8,B -3
+1747 OP_GETTABLE: A 12,B 1,C 11
+1748 OP_SETTABLE: A 3,B 12,C 7
+1749 OP_FORLOOP: A 8,B -3
+1750 OP_FORLOOP: A 4,B -22
+1751 OP_NEWTABLE: A 8,B 0,C 1
+1752 OP_SETTABLE: A 8,B 269,C 7
+1753 OP_MOVE: A 3,Bx 8
+1754 OP_LOADK: A 8,Bx 11
+1755 OP_LEN: A 9,B 1
+1756 OP_LOADK: A 10,Bx 11
+1757 OP_FORPREP: A 8,B 4
+1758 OP_FORLOOP: A 8,B -5
+1759 OP_GETTABLE: A 12,B 1,C 11
+1760 OP_ADD: A 13,B 7,C 11
+1761 OP_SETTABLE: A 3,B 12,C 13
+1762 OP_ADD: A 2,B 2,C 7
+1763 OP_FORLOOP: A 8,B -5
+1764 OP_GETTABLE: A 12,B 1,C 11
+1765 OP_ADD: A 13,B 7,C 11
+1766 OP_SETTABLE: A 3,B 12,C 13
+1767 OP_ADD: A 2,B 2,C 7
+1768 OP_FORLOOP: A 8,B -5
+1769 OP_GETTABLE: A 12,B 1,C 11
+1770 OP_ADD: A 13,B 7,C 11
+1771 OP_SETTABLE: A 3,B 12,C 13
+1772 OP_ADD: A 2,B 2,C 7
+1773 OP_FORLOOP: A 8,B -5
+1774 OP_GETTABLE: A 12,B 1,C 11
+1775 OP_ADD: A 13,B 7,C 11
+1776 OP_SETTABLE: A 3,B 12,C 13
+1777 OP_ADD: A 2,B 2,C 7
+1778 OP_FORLOOP: A 8,B -5
+1779 OP_NEWTABLE: A 8,B 0,C 0
+1780 OP_MOVE: A 3,Bx 8
+1781 OP_LOADK: A 8,Bx 11
+1782 OP_LEN: A 9,B 1
+1783 OP_LOADK: A 10,Bx 11
+1784 OP_FORPREP: A 8,B 2
+1785 OP_FORLOOP: A 8,B -3
+1786 OP_GETTABLE: A 12,B 1,C 11
+1787 OP_SETTABLE: A 3,B 12,C 7
+1788 OP_FORLOOP: A 8,B -3
+1789 OP_GETTABLE: A 12,B 1,C 11
+1790 OP_SETTABLE: A 3,B 12,C 7
+1791 OP_FORLOOP: A 8,B -3
+1792 OP_GETTABLE: A 12,B 1,C 11
+1793 OP_SETTABLE: A 3,B 12,C 7
+1794 OP_FORLOOP: A 8,B -3
+1795 OP_GETTABLE: A 12,B 1,C 11
+1796 OP_SETTABLE: A 3,B 12,C 7
+1797 OP_FORLOOP: A 8,B -3
+1798 OP_FORLOOP: A 4,B -22
+1799 OP_NEWTABLE: A 8,B 0,C 1
+1800 OP_SETTABLE: A 8,B 269,C 7
+1801 OP_MOVE: A 3,Bx 8
+1802 OP_LOADK: A 8,Bx 11
+1803 OP_LEN: A 9,B 1
+1804 OP_LOADK: A 10,Bx 11
+1805 OP_FORPREP: A 8,B 4
+1806 OP_FORLOOP: A 8,B -5
+1807 OP_GETTABLE: A 12,B 1,C 11
+1808 OP_ADD: A 13,B 7,C 11
+1809 OP_SETTABLE: A 3,B 12,C 13
+1810 OP_ADD: A 2,B 2,C 7
+1811 OP_FORLOOP: A 8,B -5
+1812 OP_GETTABLE: A 12,B 1,C 11
+1813 OP_ADD: A 13,B 7,C 11
+1814 OP_SETTABLE: A 3,B 12,C 13
+1815 OP_ADD: A 2,B 2,C 7
+1816 OP_FORLOOP: A 8,B -5
+1817 OP_GETTABLE: A 12,B 1,C 11
+1818 OP_ADD: A 13,B 7,C 11
+1819 OP_SETTABLE: A 3,B 12,C 13
+1820 OP_ADD: A 2,B 2,C 7
+1821 OP_FORLOOP: A 8,B -5
+1822 OP_GETTABLE: A 12,B 1,C 11
+1823 OP_ADD: A 13,B 7,C 11
+1824 OP_SETTABLE: A 3,B 12,C 13
+1825 OP_ADD: A 2,B 2,C 7
+1826 OP_FORLOOP: A 8,B -5
+1827 OP_NEWTABLE: A 8,B 0,C 0
+1828 OP_MOVE: A 3,Bx 8
+1829 OP_LOADK: A 8,Bx 11
+1830 OP_LEN: A 9,B 1
+1831 OP_LOADK: A 10,Bx 11
+1832 OP_FORPREP: A 8,B 2
+1833 OP_FORLOOP: A 8,B -3
+1834 OP_GETTABLE: A 12,B 1,C 11
+1835 OP_SETTABLE: A 3,B 12,C 7
+1836 OP_FORLOOP: A 8,B -3
+1837 OP_GETTABLE: A 12,B 1,C 11
+1838 OP_SETTABLE: A 3,B 12,C 7
+1839 OP_FORLOOP: A 8,B -3
+1840 OP_GETTABLE: A 12,B 1,C 11
+1841 OP_SETTABLE: A 3,B 12,C 7
+1842 OP_FORLOOP: A 8,B -3
+1843 OP_GETTABLE: A 12,B 1,C 11
+1844 OP_SETTABLE: A 3,B 12,C 7
+1845 OP_FORLOOP: A 8,B -3
+1846 OP_FORLOOP: A 4,B -22
+1847 OP_NEWTABLE: A 8,B 0,C 1
+1848 OP_SETTABLE: A 8,B 269,C 7
+1849 OP_MOVE: A 3,Bx 8
+1850 OP_LOADK: A 8,Bx 11
+1851 OP_LEN: A 9,B 1
+1852 OP_LOADK: A 10,Bx 11
+1853 OP_FORPREP: A 8,B 4
+1854 OP_FORLOOP: A 8,B -5
+1855 OP_GETTABLE: A 12,B 1,C 11
+1856 OP_ADD: A 13,B 7,C 11
+1857 OP_SETTABLE: A 3,B 12,C 13
+1858 OP_ADD: A 2,B 2,C 7
+1859 OP_FORLOOP: A 8,B -5
+1860 OP_GETTABLE: A 12,B 1,C 11
+1861 OP_ADD: A 13,B 7,C 11
+1862 OP_SETTABLE: A 3,B 12,C 13
+1863 OP_ADD: A 2,B 2,C 7
+1864 OP_FORLOOP: A 8,B -5
+1865 OP_GETTABLE: A 12,B 1,C 11
+1866 OP_ADD: A 13,B 7,C 11
+1867 OP_SETTABLE: A 3,B 12,C 13
+1868 OP_ADD: A 2,B 2,C 7
+1869 OP_FORLOOP: A 8,B -5
+1870 OP_GETTABLE: A 12,B 1,C 11
+1871 OP_ADD: A 13,B 7,C 11
+1872 OP_SETTABLE: A 3,B 12,C 13
+1873 OP_ADD: A 2,B 2,C 7
+1874 OP_FORLOOP: A 8,B -5
+1875 OP_NEWTABLE: A 8,B 0,C 0
+1876 OP_MOVE: A 3,Bx 8
+1877 OP_LOADK: A 8,Bx 11
+1878 OP_LEN: A 9,B 1
+1879 OP_LOADK: A 10,Bx 11
+1880 OP_FORPREP: A 8,B 2
+1881 OP_FORLOOP: A 8,B -3
+1882 OP_GETTABLE: A 12,B 1,C 11
+1883 OP_SETTABLE: A 3,B 12,C 7
+1884 OP_FORLOOP: A 8,B -3
+1885 OP_GETTABLE: A 12,B 1,C 11
+1886 OP_SETTABLE: A 3,B 12,C 7
+1887 OP_FORLOOP: A 8,B -3
+1888 OP_GETTABLE: A 12,B 1,C 11
+1889 OP_SETTABLE: A 3,B 12,C 7
+1890 OP_FORLOOP: A 8,B -3
+1891 OP_GETTABLE: A 12,B 1,C 11
+1892 OP_SETTABLE: A 3,B 12,C 7
+1893 OP_FORLOOP: A 8,B -3
+1894 OP_FORLOOP: A 4,B -22
+1895 OP_NEWTABLE: A 8,B 0,C 1
+1896 OP_SETTABLE: A 8,B 269,C 7
+1897 OP_MOVE: A 3,Bx 8
+1898 OP_LOADK: A 8,Bx 11
+1899 OP_LEN: A 9,B 1
+1900 OP_LOADK: A 10,Bx 11
+1901 OP_FORPREP: A 8,B 4
+1902 OP_FORLOOP: A 8,B -5
+1903 OP_GETTABLE: A 12,B 1,C 11
+1904 OP_ADD: A 13,B 7,C 11
+1905 OP_SETTABLE: A 3,B 12,C 13
+1906 OP_ADD: A 2,B 2,C 7
+1907 OP_FORLOOP: A 8,B -5
+1908 OP_GETTABLE: A 12,B 1,C 11
+1909 OP_ADD: A 13,B 7,C 11
+1910 OP_SETTABLE: A 3,B 12,C 13
+1911 OP_ADD: A 2,B 2,C 7
+1912 OP_FORLOOP: A 8,B -5
+1913 OP_GETTABLE: A 12,B 1,C 11
+1914 OP_ADD: A 13,B 7,C 11
+1915 OP_SETTABLE: A 3,B 12,C 13
+1916 OP_ADD: A 2,B 2,C 7
+1917 OP_FORLOOP: A 8,B -5
+1918 OP_GETTABLE: A 12,B 1,C 11
+1919 OP_ADD: A 13,B 7,C 11
+1920 OP_SETTABLE: A 3,B 12,C 13
+1921 OP_ADD: A 2,B 2,C 7
+1922 OP_FORLOOP: A 8,B -5
+1923 OP_NEWTABLE: A 8,B 0,C 0
+1924 OP_MOVE: A 3,Bx 8
+1925 OP_LOADK: A 8,Bx 11
+1926 OP_LEN: A 9,B 1
+1927 OP_LOADK: A 10,Bx 11
+1928 OP_FORPREP: A 8,B 2
+1929 OP_FORLOOP: A 8,B -3
+1930 OP_GETTABLE: A 12,B 1,C 11
+1931 OP_SETTABLE: A 3,B 12,C 7
+1932 OP_FORLOOP: A 8,B -3
+1933 OP_GETTABLE: A 12,B 1,C 11
+1934 OP_SETTABLE: A 3,B 12,C 7
+1935 OP_FORLOOP: A 8,B -3
+1936 OP_GETTABLE: A 12,B 1,C 11
+1937 OP_SETTABLE: A 3,B 12,C 7
+1938 OP_FORLOOP: A 8,B -3
+1939 OP_GETTABLE: A 12,B 1,C 11
+1940 OP_SETTABLE: A 3,B 12,C 7
+1941 OP_FORLOOP: A 8,B -3
+1942 OP_FORLOOP: A 4,B -22
+1943 OP_GETTABUP: A 4,B 0,C 256
+1944 OP_GETTABLE: A 4,B 4,C 257
+1945 OP_CALL: A 4,B 1,C 2
+1946 OP_GETTABUP: A 5,B 0,C 258
+1947 OP_GETTABUP: A 6,B 0,C 259
+1948 OP_GETTABLE: A 6,B 6,C 260
+1949 OP_LOADK: A 7,Bx 14
+1950 OP_MOVE: A 8,Bx 4
+1951 OP_MOVE: A 9,Bx 2
+1952 OP_CALL: A 6,B 4,C 0
+1953 OP_CALL: A 5,B 0,C 1
+end time   : 1.2011,sum 3280
+1954 OP_GETTABUP: A 5,B 0,C 258
+1955 OP_GETTABUP: A 6,B 0,C 259
+1956 OP_GETTABLE: A 6,B 6,C 260
+1957 OP_LOADK: A 7,Bx 15
+1958 OP_SUB: A 8,B 4,C 0
+1959 OP_CALL: A 6,B 3,C 0
+1960 OP_CALL: A 5,B 0,C 1
+cost time  : 0.1477
+1961 OP_RETURN: A 0,B 1
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x143A1A: obj_destroy (lgc.c:264)
+==114904==    by 0x144082: obj_destroy (lgc.c:301)
+==114904==    by 0x1441E1: obj_destroy (lgc.c:311)
+==114904==    by 0x11AB83: moveresults (ldo.c:362)
+==114904==    by 0x11AC6D: luaD_poscall (ldo.c:387)
+==114904==    by 0x13995B: luaV_execute (lvm.c:1424)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14216B: lua_pcallk (lapi.c:983)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x12ED14: luaM_realloc_ (lmem.c:75)
+==114904==    by 0x143A97: obj_destroy (lgc.c:268)
+==114904==    by 0x144082: obj_destroy (lgc.c:301)
+==114904==    by 0x1441E1: obj_destroy (lgc.c:311)
+==114904==    by 0x11AB83: moveresults (ldo.c:362)
+==114904==    by 0x11AC6D: luaD_poscall (ldo.c:387)
+==114904==    by 0x13995B: luaV_execute (lvm.c:1424)
+==114904==    by 0x11B271: luaD_call (ldo.c:494)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x141F44: f_call (lapi.c:959)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x1351EB: luaV_objlen (lvm.c:696)
+==114904==    by 0x142966: lua_len (lapi.c:1165)
+==114904==    by 0x114BF1: luaL_len (lauxlib.c:745)
+==114904==    by 0x11C55E: gctm (loadlib.c:348)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x147460: dothecall (lgc.c:1284)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x11BD90: luaD_pcall (ldo.c:712)
+==114904==    by 0x14779F: call_gc (lgc.c:1331)
+==114904==    by 0x144D7D: obj_destroy (lgc.c:433)
+==114904== 
+==114904== Invalid read of size 8
+==114904==    at 0x10F6C1: luaH_gset (ltable.c:695)
+==114904==    by 0x10E9FD: luaH_getstr (ltable.c:539)
+==114904==    by 0x13F6BC: auxgetstr (lapi.c:609)
+==114904==    by 0x13FA8B: lua_getfield (lapi.c:640)
+==114904==    by 0x113894: luaL_testudata (lauxlib.c:304)
+==114904==    by 0x1138FC: luaL_checkudata (lauxlib.c:315)
+==114904==    by 0x111250: f_gc (liolib.c:223)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x147460: dothecall (lgc.c:1284)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==  Address 0x55da9a8 is 248 bytes inside a block of size 384 free'd
+==114904==    at 0x4C30FA8: free (vg_replace_malloc.c:540)
+==114904==    by 0x12ED6F: luaM_realloc_ (lmem.c:83)
+==114904==    by 0x11061E: luaH_free (ltable.c:986)
+==114904==    by 0x144E58: obj_destroy (lgc.c:439)
+==114904==    by 0x11FC71: close_state (lstate.c:249)
+==114904==    by 0x1201FA: lua_close (lstate.c:347)
+==114904==    by 0x13034F: main (lua.c:609)
+==114904==  Block was alloc'd at
+==114904==    at 0x4C2FD3C: malloc (vg_replace_malloc.c:308)
+==114904==    by 0x4C3228B: realloc (vg_replace_malloc.c:836)
+==114904==    by 0x12ED8C: luaM_realloc_ (lmem.c:86)
+==114904==    by 0x10E49B: luaH_resize_ (ltable.c:421)
+==114904==    by 0x10E67D: luaH_resize (ltable.c:454)
+==114904==    by 0x11F763: init_registry (lstate.c:184)
+==114904==    by 0x11F833: f_luaopen (lstate.c:203)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x1201AF: lua_newstate (lstate.c:336)
+==114904==    by 0x1158E0: luaL_newstate (lauxlib.c:990)
+==114904==    by 0x130289: main (lua.c:598)
+==114904== 
+==114904== Invalid read of size 8
+==114904==    at 0x10F6CD: luaH_gset (ltable.c:696)
+==114904==    by 0x10E9FD: luaH_getstr (ltable.c:539)
+==114904==    by 0x13F6BC: auxgetstr (lapi.c:609)
+==114904==    by 0x13FA8B: lua_getfield (lapi.c:640)
+==114904==    by 0x113894: luaL_testudata (lauxlib.c:304)
+==114904==    by 0x1138FC: luaL_checkudata (lauxlib.c:315)
+==114904==    by 0x111250: f_gc (liolib.c:223)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x147460: dothecall (lgc.c:1284)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==  Address 0x55da9b0 is 256 bytes inside a block of size 384 free'd
+==114904==    at 0x4C30FA8: free (vg_replace_malloc.c:540)
+==114904==    by 0x12ED6F: luaM_realloc_ (lmem.c:83)
+==114904==    by 0x11061E: luaH_free (ltable.c:986)
+==114904==    by 0x144E58: obj_destroy (lgc.c:439)
+==114904==    by 0x11FC71: close_state (lstate.c:249)
+==114904==    by 0x1201FA: lua_close (lstate.c:347)
+==114904==    by 0x13034F: main (lua.c:609)
+==114904==  Block was alloc'd at
+==114904==    at 0x4C2FD3C: malloc (vg_replace_malloc.c:308)
+==114904==    by 0x4C3228B: realloc (vg_replace_malloc.c:836)
+==114904==    by 0x12ED8C: luaM_realloc_ (lmem.c:86)
+==114904==    by 0x10E49B: luaH_resize_ (ltable.c:421)
+==114904==    by 0x10E67D: luaH_resize (ltable.c:454)
+==114904==    by 0x11F763: init_registry (lstate.c:184)
+==114904==    by 0x11F833: f_luaopen (lstate.c:203)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x1201AF: lua_newstate (lstate.c:336)
+==114904==    by 0x1158E0: luaL_newstate (lauxlib.c:990)
+==114904==    by 0x130289: main (lua.c:598)
+==114904== 
+==114904== Invalid read of size 8
+==114904==    at 0x10F815: luaH_gset (ltable.c:720)
+==114904==    by 0x10E9FD: luaH_getstr (ltable.c:539)
+==114904==    by 0x13F6BC: auxgetstr (lapi.c:609)
+==114904==    by 0x13FA8B: lua_getfield (lapi.c:640)
+==114904==    by 0x113894: luaL_testudata (lauxlib.c:304)
+==114904==    by 0x1138FC: luaL_checkudata (lauxlib.c:315)
+==114904==    by 0x111250: f_gc (liolib.c:223)
+==114904==    by 0x11AE2B: luaD_precall (ldo.c:431)
+==114904==    by 0x11B261: luaD_call (ldo.c:493)
+==114904==    by 0x11B2CF: luaD_callnoyield (ldo.c:503)
+==114904==    by 0x147460: dothecall (lgc.c:1284)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==  Address 0x55da9a0 is 240 bytes inside a block of size 384 free'd
+==114904==    at 0x4C30FA8: free (vg_replace_malloc.c:540)
+==114904==    by 0x12ED6F: luaM_realloc_ (lmem.c:83)
+==114904==    by 0x11061E: luaH_free (ltable.c:986)
+==114904==    by 0x144E58: obj_destroy (lgc.c:439)
+==114904==    by 0x11FC71: close_state (lstate.c:249)
+==114904==    by 0x1201FA: lua_close (lstate.c:347)
+==114904==    by 0x13034F: main (lua.c:609)
+==114904==  Block was alloc'd at
+==114904==    at 0x4C2FD3C: malloc (vg_replace_malloc.c:308)
+==114904==    by 0x4C3228B: realloc (vg_replace_malloc.c:836)
+==114904==    by 0x12ED8C: luaM_realloc_ (lmem.c:86)
+==114904==    by 0x10E49B: luaH_resize_ (ltable.c:421)
+==114904==    by 0x10E67D: luaH_resize (ltable.c:454)
+==114904==    by 0x11F763: init_registry (lstate.c:184)
+==114904==    by 0x11F833: f_luaopen (lstate.c:203)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x1201AF: lua_newstate (lstate.c:336)
+==114904==    by 0x1158E0: luaL_newstate (lauxlib.c:990)
+==114904==    by 0x130289: main (lua.c:598)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x11FD2A: close_state (lstate.c:256)
+==114904==    by 0x1201FA: lua_close (lstate.c:347)
+==114904==    by 0x13034F: main (lua.c:609)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x144E7E: obj_destroy (lgc.c:444)
+==114904==    by 0x11FD42: close_state (lstate.c:256)
+==114904==    by 0x1201FA: lua_close (lstate.c:347)
+==114904==    by 0x13034F: main (lua.c:609)
+==114904== 
+==114904== Conditional jump or move depends on uninitialised value(s)
+==114904==    at 0x144F4A: obj_destroy (lgc.c:451)
+==114904==    by 0x11FD42: close_state (lstate.c:256)
+==114904==    by 0x1201FA: lua_close (lstate.c:347)
+==114904==    by 0x13034F: main (lua.c:609)
+==114904== 
+==114904== 
+==114904== HEAP SUMMARY:
+==114904==     in use at exit: 2,312 bytes in 1 blocks
+==114904==   total heap usage: 2,158 allocs, 2,157 frees, 98,411 bytes allocated
+==114904== 
+==114904== 2,312 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==114904==    at 0x4C2FD3C: malloc (vg_replace_malloc.c:308)
+==114904==    by 0x4C3228B: realloc (vg_replace_malloc.c:836)
+==114904==    by 0x12ED8C: luaM_realloc_ (lmem.c:86)
+==114904==    by 0x130E55: const_init (lint.c:30)
+==114904==    by 0x11F749: init_registry (lstate.c:183)
+==114904==    by 0x11F833: f_luaopen (lstate.c:203)
+==114904==    by 0x119B38: luaD_rawrunprotected (ldo.c:132)
+==114904==    by 0x1201AF: lua_newstate (lstate.c:336)
+==114904==    by 0x1158E0: luaL_newstate (lauxlib.c:990)
+==114904==    by 0x130289: main (lua.c:598)
+==114904== 
+==114904== LEAK SUMMARY:
+==114904==    definitely lost: 2,312 bytes in 1 blocks
+==114904==    indirectly lost: 0 bytes in 0 blocks
+==114904==      possibly lost: 0 bytes in 0 blocks
+==114904==    still reachable: 0 bytes in 0 blocks
+==114904==         suppressed: 0 bytes in 0 blocks
+==114904== 
+==114904== Use --track-origins=yes to see where uninitialised values come from
+==114904== For lists of detected and suppressed errors, rerun with: -s
+==114904== ERROR SUMMARY: 942 errors from 85 contexts (suppressed: 0 from 0)
+root@qing-vm-ubuntu:~/data/lib/lua-plus# 
